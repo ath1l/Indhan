@@ -1,0 +1,22 @@
+{
+  "cylinders": [
+    {
+      "id": "cyl000000000000000000001",
+      "name": "Kitchen Main",
+      "tare_weight_kg": 15.3,
+      "capacity_kg": 14.2
+    }
+  ],
+  "readings": [
+    {
+      "cylinder_id": "cyl000000000000000000001",
+      "timestamp": "2026-07-17T08:00:00Z",
+      "weight_kg": 6.1
+    },
+    {
+      "cylinder_id": "cyl000000000000000000001",
+      "timestamp": "2026-07-18T10:00:00Z",
+      "weight_kg": 5.26
+    }
+  ]
+}
