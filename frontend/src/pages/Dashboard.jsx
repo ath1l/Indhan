@@ -101,7 +101,7 @@ const Dashboard = () => {
         <div>
           <h1 className="text-3xl font-display font-semibold tracking-widest text-white flex items-center gap-4">
             <span className="p-2.5 glass-panel flex items-center justify-center">
-              <IndhanLogo className="w-6 h-6 drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]" />
+              <IndhanLogo variant="icon" className="w-6 h-6 drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]" />
             </span>
             INDHAN
           </h1>

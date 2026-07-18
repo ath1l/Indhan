@@ -34,7 +34,7 @@ const Login = () => {
 
         <div className="text-center mb-10 relative z-10">
           <div className="inline-flex items-center justify-center p-3.5 glass-panel mb-6">
-            <IndhanLogo className="w-8 h-8 drop-shadow-[0_0_8px_rgba(45,212,191,0.6)]" />
+            <IndhanLogo variant="icon" className="w-8 h-8 drop-shadow-[0_0_8px_rgba(45,212,191,0.6)]" />
           </div>
           <h2 className="text-4xl font-display font-semibold tracking-widest text-white mb-3">INDHAN</h2>
           <p className="text-gray-400 text-sm leading-relaxed tracking-wide">Intelligent Kitchen Energy Management</p>
