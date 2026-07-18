@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Activity, Droplet, LogOut, ChevronRight, Download } from 'lucide-react';
+import { Activity, Droplet, LogOut, ChevronRight, Download, Plus } from 'lucide-react';
 import DaysRemainingCard from '../components/DaysRemainingCard';
 import WeightTrendChart from '../components/WeightTrendChart';
 import AnomalyAlert from '../components/AnomalyAlert';
 import MockCylinderCard from '../components/MockCylinderCard';
+import AddCylinderModal from '../components/AddCylinderModal';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [history, setHistory] = useState([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -35,7 +38,7 @@ const Dashboard = () => {
     };
 
     fetchDashboard();
-  }, []);
+  }, [refreshTrigger]);
 
   if (loading) {
     return (
@@ -118,6 +121,14 @@ const Dashboard = () => {
             {cylinder?.name?.charAt(0) || 'C'}
           </div>
           <button 
+            onClick={() => setIsAddModalOpen(true)}
+            className="ml-4 flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-lg shadow-blue-900/20"
+            title="Add New Cylinder"
+          >
+            <Plus className="w-4 h-4" />
+            Add Cylinder
+          </button>
+          <button 
             onClick={handleExportCSV}
             className="ml-2 flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-400 bg-blue-950/30 hover:bg-blue-900/50 rounded-lg transition-colors border border-blue-900/50"
             title="Export Monthly OpEx Summary (.CSV)"
@@ -183,15 +194,28 @@ const Dashboard = () => {
             <DaysRemainingCard prediction={cylinder?.prediction} />
           </div>
 
-          {/* Cylinder 02 - Mock Oven Bank */}
-          <div className="lg:col-span-1">
-            <MockCylinderCard name="Cylinder 02 - Oven Bank" status="Healthy" percent={82} weight={24.2} />
-          </div>
-
-          {/* Cylinder 03 - Mock Backup */}
-          <div className="lg:col-span-1">
-            <MockCylinderCard name="Cylinder 03 - Backup Supply" status="Standby" percent={100} weight={29.5} />
-          </div>
+          {/* Dynamically Rendered Cylinders */}
+          {data?.cylinders?.slice(1).map((cyl) => {
+            const hasReading = !!cyl.latest_reading;
+            // Assuming standard 14.2 capacity and 15.3 tare = 29.5 max for the demo if not specified
+            const currentWeight = hasReading ? cyl.latest_reading.weight_kg : 29.5;
+            const percent = Math.min(100, Math.max(0, Math.round(((currentWeight - 15.3) / 14.2) * 100)));
+            
+            return (
+              <div 
+                key={cyl.id} 
+                className="lg:col-span-1 cursor-pointer transition-transform hover:scale-[1.02]"
+                onClick={() => navigate(`/cylinders/${cyl.id}`)}
+              >
+                <MockCylinderCard 
+                  name={cyl.name} 
+                  status={hasReading ? "Active" : "Standby"} 
+                  percent={hasReading ? percent : 100} 
+                  weight={currentWeight} 
+                />
+              </div>
+            );
+          })}
           
         </div>
 
@@ -201,6 +225,16 @@ const Dashboard = () => {
         </div>
         
       </main>
+
+      {/* Modal */}
+      <AddCylinderModal 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+        onSuccess={() => {
+          setIsAddModalOpen(false);
+          setRefreshTrigger(prev => prev + 1);
+        }} 
+      />
     </div>
   );
 };
