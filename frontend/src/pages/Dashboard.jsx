@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Activity, Droplet, LogOut, ChevronRight, Download, Plus } from 'lucide-react';
+import { Activity, LogOut, ChevronRight, Download, Plus } from 'lucide-react';
 import DaysRemainingCard from '../components/DaysRemainingCard';
 import WeightTrendChart from '../components/WeightTrendChart';
 import AnomalyAlert from '../components/AnomalyAlert';
 import MockCylinderCard from '../components/MockCylinderCard';
 import AddCylinderModal from '../components/AddCylinderModal';
+import IndhanLogo from '../components/IndhanLogo';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ const Dashboard = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'Indhan_OpEx_Report.csv');
+    link.setAttribute('download', 'INDHAN_OpEx_Report.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -93,52 +94,53 @@ const Dashboard = () => {
   const cylinder = data?.cylinders?.[0];
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 p-6 md:p-12 font-sans selection:bg-blue-900/50">
+    <div className="min-h-screen text-gray-100 p-6 md:p-12 font-sans selection:bg-teal-500/30">
       
       {/* Header */}
-      <header className="max-w-6xl mx-auto mb-10 flex items-center justify-between border-b border-gray-800/50 pb-6">
+      <header className="max-w-7xl mx-auto mb-10 flex items-center justify-between border-b border-white/10 pb-6">
         <div>
-          <h1 className="text-3xl font-light tracking-tight text-white flex items-center gap-3">
-            <span className="p-2 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg shadow-lg shadow-blue-900/20">
-              <Droplet className="w-6 h-6 text-white" />
+          <h1 className="text-3xl font-display font-semibold tracking-widest text-white flex items-center gap-4">
+            <span className="p-2.5 glass-panel flex items-center justify-center">
+              <IndhanLogo className="w-6 h-6 drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]" />
             </span>
-            Indhan Intelligence
+            INDHAN
           </h1>
-          <p className="text-gray-500 text-sm mt-2 flex items-center gap-2">
+          <p className="text-gray-400 text-sm mt-3 flex items-center gap-2">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
             </span>
             Live Telemetry Active
           </p>
         </div>
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-5">
           <div className="text-right">
             <p className="text-sm font-medium text-gray-300">{cylinder?.name || 'Unknown'}</p>
-            <p className="text-xs text-gray-500 uppercase tracking-wider">{cylinder?.id}</p>
+            <p className="text-xs text-gray-500 uppercase tracking-widest mt-0.5">{cylinder?.id}</p>
           </div>
-          <div className="h-10 w-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400">
+          <div className="h-11 w-11 rounded-2xl glass-panel flex items-center justify-center text-gray-300 font-display text-lg">
             {cylinder?.name?.charAt(0) || 'C'}
           </div>
+          <div className="h-8 w-[1px] bg-white/10 mx-2"></div>
           <button 
             onClick={() => setIsAddModalOpen(true)}
-            className="ml-4 flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-lg shadow-blue-900/20"
+            className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all shadow-lg hover:shadow-white/5"
             title="Add New Cylinder"
           >
             <Plus className="w-4 h-4" />
-            Add Cylinder
+            Add
           </button>
           <button 
             onClick={handleExportCSV}
-            className="ml-2 flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-400 bg-blue-950/30 hover:bg-blue-900/50 rounded-lg transition-colors border border-blue-900/50"
+            className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-teal-500/20 hover:bg-teal-500/30 border border-teal-500/30 text-teal-100 rounded-2xl transition-all shadow-[0_0_15px_rgba(20,184,166,0.1)]"
             title="Export Monthly OpEx Summary (.CSV)"
           >
             <Download className="w-4 h-4" />
-            Export OpEx
+            Export
           </button>
           <button 
             onClick={() => navigate('/login')}
-            className="ml-2 p-2 text-gray-500 hover:text-white bg-gray-900/50 hover:bg-gray-800 rounded-lg transition-colors border border-gray-800"
+            className="p-2.5 text-gray-400 hover:text-white glass-panel glass-panel-hover"
             title="Sign Out"
           >
             <LogOut className="w-5 h-5" />
@@ -147,7 +149,7 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto space-y-6">
+      <main className="max-w-7xl mx-auto space-y-6">
         
         {/* Alerts */}
         <AnomalyAlert 
@@ -163,59 +165,76 @@ const Dashboard = () => {
           }}
         />
 
-        {/* Multi-Cylinder Kitchen Matrix */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Multi-Cylinder Kitchen Matrix - Bento Box */}
+        <div className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6">
           
           {/* Cylinder 01 - Main Wok Line (Real Data) */}
-          <div className="md:col-span-2 lg:col-span-2 flex flex-col gap-6">
+          <div className="md:col-span-8 lg:col-span-8 flex flex-col gap-6">
             <div 
               onClick={() => cylinder?.id && navigate(`/cylinders/${cylinder.id}`)}
-              className="p-6 rounded-2xl bg-gray-900/50 border border-blue-900/50 backdrop-blur-sm shadow-xl shadow-blue-900/10 flex flex-col justify-between cursor-pointer hover:bg-gray-800/80 hover:border-gray-700 transition-all group h-full"
+              className="glass-panel glass-panel-hover p-8 flex flex-col justify-between cursor-pointer group h-[300px] relative overflow-hidden"
             >
-              <div className="flex justify-between items-start mb-4">
-                <h2 className="text-blue-400 text-sm font-medium uppercase tracking-wider flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                  Cylinder 01 - Main Wok Line
+              {/* Decorative background glow inside the card */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
+
+              <div className="flex justify-between items-start mb-4 relative z-10">
+                <h2 className="text-teal-300 text-xs font-semibold uppercase tracking-widest flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-teal-400 drop-shadow-[0_0_8px_rgba(45,212,191,0.8)]"></span>
+                  Main Wok Line
                 </h2>
-                <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
+                <div className="p-2 rounded-xl bg-white/5 group-hover:bg-white/10 transition-colors border border-white/5">
+                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+                </div>
               </div>
-              <div className="flex items-end space-x-2">
-                <span className="text-5xl font-light tracking-tighter text-white">
-                  {cylinder?.latest_reading?.weight_kg?.toFixed(2) || '0.00'}
-                </span>
-                <span className="text-xl text-gray-500 pb-1">kg</span>
-              </div>
-              <div className="mt-6 flex items-center text-sm text-gray-500">
-                <Activity className="w-4 h-4 mr-2" />
-                Live burn rate: {cylinder?.prediction?.burn_rate_kg_per_day || '0.00'} kg/day
+              
+              <div className="flex flex-col justify-end mt-auto relative z-10">
+                <span className="text-gray-400 text-sm mb-1 font-medium">Live Weight</span>
+                <div className="flex items-baseline space-x-2">
+                  <span className="text-7xl font-display font-light tracking-tighter text-white drop-shadow-md">
+                    {cylinder?.latest_reading?.weight_kg?.toFixed(2) || '0.00'}
+                  </span>
+                  <span className="text-2xl text-gray-500 font-medium">kg</span>
+                </div>
+                
+                <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
+                  <div className="flex items-center text-sm font-medium text-gray-400">
+                    <Activity className="w-4 h-4 mr-2 text-teal-400" />
+                    Live Burn Rate
+                  </div>
+                  <span className="text-gray-300 bg-white/5 border border-white/10 px-3 py-1 rounded-lg text-sm font-mono tracking-tight">{cylinder?.prediction?.burn_rate_kg_per_day || '0.00'} kg/day</span>
+                </div>
               </div>
             </div>
             
+          </div>
+
+          <div className="md:col-span-4 lg:col-span-4">
             <DaysRemainingCard prediction={cylinder?.prediction} />
           </div>
 
           {/* Dynamically Rendered Cylinders */}
-          {data?.cylinders?.slice(1).map((cyl) => {
-            const hasReading = !!cyl.latest_reading;
-            // Assuming standard 14.2 capacity and 15.3 tare = 29.5 max for the demo if not specified
-            const currentWeight = hasReading ? cyl.latest_reading.weight_kg : 29.5;
-            const percent = Math.min(100, Math.max(0, Math.round(((currentWeight - 15.3) / 14.2) * 100)));
-            
-            return (
-              <div 
-                key={cyl.id} 
-                className="lg:col-span-1 cursor-pointer transition-transform hover:scale-[1.02]"
-                onClick={() => navigate(`/cylinders/${cyl.id}`)}
-              >
-                <MockCylinderCard 
-                  name={cyl.name} 
-                  status={hasReading ? "Active" : "Standby"} 
-                  percent={hasReading ? percent : 100} 
-                  weight={currentWeight} 
-                />
-              </div>
-            );
-          })}
+          <div className="md:col-span-8 lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {data?.cylinders?.slice(1).map((cyl) => {
+              const hasReading = !!cyl.latest_reading;
+              const currentWeight = hasReading ? cyl.latest_reading.weight_kg : 29.5;
+              const percent = Math.min(100, Math.max(0, Math.round(((currentWeight - 15.3) / 14.2) * 100)));
+              
+              return (
+                <div 
+                  key={cyl.id} 
+                  className="cursor-pointer"
+                  onClick={() => navigate(`/cylinders/${cyl.id}`)}
+                >
+                  <MockCylinderCard 
+                    name={cyl.name} 
+                    status={hasReading ? "Active" : "Standby"} 
+                    percent={hasReading ? percent : 100} 
+                    weight={currentWeight} 
+                  />
+                </div>
+              );
+            })}
+          </div>
           
         </div>
 

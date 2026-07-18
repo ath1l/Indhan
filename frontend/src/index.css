@@ -4,6 +4,28 @@
 
 @layer base {
   body {
-    @apply bg-gray-950 text-gray-100;
+    @apply bg-[#030614] text-gray-100 antialiased font-sans selection:bg-teal-500/30;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%), /* Slate Blue/Indigo */
+      radial-gradient(circle at 90% 10%, rgba(20, 184, 166, 0.12) 0%, transparent 40%), /* Muted Teal */
+      radial-gradient(circle at 70% 80%, rgba(249, 115, 22, 0.08) 0%, transparent 40%), /* Warm Peach */
+      radial-gradient(circle at 20% 90%, rgba(168, 85, 247, 0.12) 0%, transparent 40%); /* Soft Lavender */
+    background-attachment: fixed;
+    min-height: 100vh;
   }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-white/[0.02] backdrop-blur-3xl border border-white/[0.05] rounded-3xl;
+    box-shadow: 
+      0 30px 60px -15px rgba(0, 0, 0, 0.5), 
+      inset 0 1px 0px 0px rgba(255, 255, 255, 0.2), /* Glowing specular highlight */
+      inset 0 0 20px 0px rgba(255, 255, 255, 0.02);
+  }
+  
+  .glass-panel-hover {
+    @apply hover:bg-white/[0.04] hover:border-white/[0.08] transition-all duration-300;
+  }
+
 }
