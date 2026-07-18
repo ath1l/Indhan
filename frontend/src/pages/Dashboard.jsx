@@ -193,7 +193,7 @@ const Dashboard = () => {
               </div>
               <div className="flex flex-col justify-end mt-auto relative z-10">
                 <GasLevelIndicator 
-                  currentWeight={cylinder?.latest_reading?.weight_kg || 29.5} 
+                  currentWeight={cylinder?.latest_reading?.weight_kg ?? ((cylinder?.capacity_kg || 14.2) + (cylinder?.tare_weight_kg || 15.3))} 
                   capacity={cylinder?.capacity_kg || 14.2} 
                   tare={cylinder?.tare_weight_kg || 15.3}
                   size="large"
@@ -217,11 +217,6 @@ const Dashboard = () => {
 
           {/* Dynamically Rendered Cylinders */}
           {data?.cylinders?.slice(1).map((cyl) => {
-            const hasReading = !!cyl.latest_reading;
-            // Assuming standard 14.2 capacity and 15.3 tare = 29.5 max for the demo if not specified
-            const currentWeight = hasReading ? cyl.latest_reading.weight_kg : 29.5;
-            const percent = Math.min(100, Math.max(0, Math.round(((currentWeight - 15.3) / 14.2) * 100)));
-            
             return (
               <div 
                 key={cyl.id} 
@@ -229,10 +224,7 @@ const Dashboard = () => {
                 onClick={() => navigate(`/cylinders/${cyl.id}`)}
               >
                 <MockCylinderCard 
-                  name={cyl.name} 
-                  status={hasReading ? "Active" : "Standby"} 
-                  percent={hasReading ? percent : 100} 
-                  weight={currentWeight} 
+                  cylinder={cyl} 
                   onDelete={(e) => {
                     e.stopPropagation();
                     handleDeleteCylinder(cyl.id);
