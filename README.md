@@ -15,9 +15,42 @@ Project Indhan is a smart LPG cylinder monitoring system.
 
 For details on the work split and API specifications, refer to [docs/api-spec.md](./docs/api-spec.md).
 
-## ML engine
-The Python ML components now include a depletion predictor, anomaly detector, cost projection helper, and synthetic data generator under [ml-engine](./ml-engine). Run the tests with:
+## Environment Setup
 
-```bash
-python -m pytest ml-engine/tests/test_ml_engine.py
+The backend expects specific environment variables to function correctly. Ensure you create a `.env` file in the `backend/` directory if you intend to customize the connection. By default, it will fall back to local MongoDB.
+
+**`backend/.env`**
+```env
+# MongoDB Connection String
+MONGO_URI=mongodb://localhost:27017/indhan
+
+# Server Port (default: 5000)
+PORT=3000
 ```
+*(Note: Ensure your MongoDB server is running locally or provide a valid Atlas URI).*
+
+## Running the Application
+
+This project is set up as a monorepo. You can install all dependencies and start the full stack (Frontend + Backend) with a single command from the root directory.
+
+### 1. Install Dependencies
+Make sure you have run `npm install` in both the `frontend/` and `backend/` directories, and then install the root dependencies:
+```bash
+npm install
+```
+
+### 2. Seed the Database
+To ensure the dashboard has historical demo data to render immediately upon startup, run the seed script:
+```bash
+cd backend
+npm run seed
+cd ..
+```
+
+### 3. Start the Full Stack
+Launch the backend and frontend simultaneously using `concurrently`:
+```bash
+npm start
+```
+
+The frontend will be available at `http://localhost:5173` and the backend will run at `http://localhost:3000`.
