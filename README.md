@@ -14,3 +14,10 @@ Project Indhan is a smart LPG cylinder monitoring system.
 - `scripts/`: Helper scripts for seeding demo data.
 
 For details on the work split and API specifications, refer to [docs/api-spec.md](./docs/api-spec.md).
+
+## ML engine
+The Python ML components now include a depletion predictor, anomaly detector, cost projection helper, and synthetic data generator under [ml-engine](./ml-engine). Run the tests with:
+
+```bash
+python -m pytest ml-engine/tests/test_ml_engine.py
+```
