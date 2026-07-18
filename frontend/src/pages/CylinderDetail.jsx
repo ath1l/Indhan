@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ArrowLeft, Activity, Flame, DollarSign, Clock, Database } from 'lucide-react';
 import WeightTrendChart from '../components/WeightTrendChart';
 import SimulationPanel from '../components/SimulationPanel';
+import TimeWarpSimulator from '../components/TimeWarpSimulator';
 import CostProjectionCard from '../components/CostProjectionCard';
 
 const CylinderDetail = () => {
@@ -54,6 +55,15 @@ const CylinderDetail = () => {
 
   const handleReadingAdded = () => {
     setRefreshTrigger(prev => prev + 1);
+  };
+
+  const handleLivePoint = (newPoint) => {
+    setHistory(prev => {
+      const updated = [...prev, newPoint];
+      // Keep only last 1000 points to prevent memory issues during hyper-speed
+      if (updated.length > 1000) return updated.slice(updated.length - 1000);
+      return updated;
+    });
   };
 
   if (loading) {
@@ -168,7 +178,11 @@ const CylinderDetail = () => {
 
             {/* Big Chart */}
             <div className="h-96 mb-8">
-              <WeightTrendChart history={history} />
+              <WeightTrendChart 
+                history={history} 
+                capacity={cylinder?.capacity_kg || 14.2}
+                tare={cylinder?.tare_weight_kg || 15.3}
+              />
             </div>
 
             {/* Live ML Simulation Panel */}
@@ -178,6 +192,13 @@ const CylinderDetail = () => {
               capacity={cylinder?.capacity_kg}
               tare={cylinder?.tare_weight_kg}
               onReadingAdded={handleReadingAdded}
+            />
+
+            {/* Live Time-Warp Engine */}
+            <TimeWarpSimulator 
+              cylinderId={id}
+              initialWeight={history.length > 0 ? history[history.length - 1].weight_kg : (cylinder?.capacity_kg + cylinder?.tare_weight_kg)}
+              onLivePointGenerated={handleLivePoint}
             />
           </>
         )}
