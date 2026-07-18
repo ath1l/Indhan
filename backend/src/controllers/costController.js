@@ -1,8 +1,21 @@
 const mlService = require('../services/mlService');
+const Reading = require('../models/Reading');
 
 exports.getCostProjection = async (req, res) => {
   try {
-    const prediction = await mlService.getPrediction(req.params.id);
+    const readings = await Reading.find({ cylinder_id: req.params.id });
+    let prediction = null;
+    
+    if (readings && readings.length >= 2) {
+      try {
+        prediction = await mlService.getPrediction(req.params.id);
+      } catch (err) {
+        console.error(`Cost prediction skipped for ${req.params.id}: ${err.message}`);
+      }
+    } else {
+      return res.status(200).json({ projected_daily_cost: 0, projected_monthly_cost: 0, message: "Not enough data" });
+    }
+    
     const burnRate = prediction?.burn_rate_kg_per_day || 0;
     
     // Mock LPG Price
