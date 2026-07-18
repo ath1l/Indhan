@@ -33,6 +33,8 @@ exports.getDashboardSummary = async (req, res) => {
       return {
         id: cyl._id.toString(),
         name: cyl.name,
+        capacity_kg: cyl.capacity_kg,
+        tare_weight_kg: cyl.tare_weight_kg,
         latest_reading: latestReading ? {
           timestamp: latestReading.timestamp,
           weight_kg: latestReading.weight_kg
