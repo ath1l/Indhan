@@ -25,7 +25,7 @@ The backend expects specific environment variables to function correctly. Ensure
 MONGO_URI=mongodb://localhost:27017/indhan
 
 # Server Port (default: 5000)
-PORT=3000
+PORT=5000
 ```
 *(Note: Ensure your MongoDB server is running locally or provide a valid Atlas URI).*
 
@@ -53,4 +53,4 @@ Launch the backend and frontend simultaneously using `concurrently`:
 npm start
 ```
 
-The frontend will be available at `http://localhost:5173` and the backend will run at `http://localhost:3000`.
+The frontend will be available at `http://localhost:5173` and the backend will run at `http://localhost:5000`.

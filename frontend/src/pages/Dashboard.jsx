@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Activity, Droplet, LogOut, ChevronRight } from 'lucide-react';
+import { Activity, Droplet, LogOut, ChevronRight, Download } from 'lucide-react';
 import DaysRemainingCard from '../components/DaysRemainingCard';
 import WeightTrendChart from '../components/WeightTrendChart';
 import AnomalyAlert from '../components/AnomalyAlert';
+import MockCylinderCard from '../components/MockCylinderCard';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -59,6 +60,33 @@ const Dashboard = () => {
     );
   }
 
+  const handleExportCSV = () => {
+    if (!data?.cylinders) return;
+
+    const headers = ['Cylinder ID', 'Name', 'Current Weight (kg)', 'Burn Rate (kg/day)', 'Est. Empty Date'];
+    const rows = data.cylinders.map(c => [
+      c.id,
+      c.name,
+      c.latest_reading?.weight_kg?.toFixed(2) || 'N/A',
+      c.prediction?.burn_rate_kg_per_day || '0.00',
+      c.prediction?.est_empty_at ? new Date(c.prediction.est_empty_at).toLocaleDateString() : 'N/A'
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(r => r.join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'Indhan_OpEx_Report.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const cylinder = data?.cylinders?.[0];
 
   return (
@@ -90,8 +118,16 @@ const Dashboard = () => {
             {cylinder?.name?.charAt(0) || 'C'}
           </div>
           <button 
+            onClick={handleExportCSV}
+            className="ml-2 flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-400 bg-blue-950/30 hover:bg-blue-900/50 rounded-lg transition-colors border border-blue-900/50"
+            title="Export Monthly OpEx Summary (.CSV)"
+          >
+            <Download className="w-4 h-4" />
+            Export OpEx
+          </button>
+          <button 
             onClick={() => navigate('/login')}
-            className="ml-4 p-2 text-gray-500 hover:text-white bg-gray-900/50 hover:bg-gray-800 rounded-lg transition-colors border border-gray-800"
+            className="ml-2 p-2 text-gray-500 hover:text-white bg-gray-900/50 hover:bg-gray-800 rounded-lg transition-colors border border-gray-800"
             title="Sign Out"
           >
             <LogOut className="w-5 h-5" />
@@ -116,33 +152,47 @@ const Dashboard = () => {
           }}
         />
 
-        {/* Top Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Current Weight Stat */}
-          <div 
-            onClick={() => cylinder?.id && navigate(`/cylinders/${cylinder.id}`)}
-            className="p-6 rounded-2xl bg-gray-900/50 border border-gray-800 backdrop-blur-sm shadow-xl flex flex-col justify-between cursor-pointer hover:bg-gray-800/80 hover:border-gray-700 transition-all group"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <h2 className="text-gray-400 text-sm font-medium uppercase tracking-wider">Current Capacity</h2>
-              <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
+        {/* Multi-Cylinder Kitchen Matrix */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          {/* Cylinder 01 - Main Wok Line (Real Data) */}
+          <div className="md:col-span-2 lg:col-span-2 flex flex-col gap-6">
+            <div 
+              onClick={() => cylinder?.id && navigate(`/cylinders/${cylinder.id}`)}
+              className="p-6 rounded-2xl bg-gray-900/50 border border-blue-900/50 backdrop-blur-sm shadow-xl shadow-blue-900/10 flex flex-col justify-between cursor-pointer hover:bg-gray-800/80 hover:border-gray-700 transition-all group h-full"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <h2 className="text-blue-400 text-sm font-medium uppercase tracking-wider flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                  Cylinder 01 - Main Wok Line
+                </h2>
+                <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
+              </div>
+              <div className="flex items-end space-x-2">
+                <span className="text-5xl font-light tracking-tighter text-white">
+                  {cylinder?.latest_reading?.weight_kg?.toFixed(2) || '0.00'}
+                </span>
+                <span className="text-xl text-gray-500 pb-1">kg</span>
+              </div>
+              <div className="mt-6 flex items-center text-sm text-gray-500">
+                <Activity className="w-4 h-4 mr-2" />
+                Live burn rate: {cylinder?.prediction?.burn_rate_kg_per_day || '0.00'} kg/day
+              </div>
             </div>
-            <div className="flex items-end space-x-2">
-              <span className="text-5xl font-light tracking-tighter text-white">
-                {cylinder?.latest_reading?.weight_kg?.toFixed(2) || '0.00'}
-              </span>
-              <span className="text-xl text-gray-500 pb-1">kg</span>
-            </div>
-            <div className="mt-6 flex items-center text-sm text-gray-500">
-              <Activity className="w-4 h-4 mr-2" />
-              Burn rate: {cylinder?.prediction?.burn_rate_kg_per_day || '0.00'} kg/day
-            </div>
-          </div>
-
-          {/* AI Prediction Stat */}
-          <div className="md:col-span-2">
+            
             <DaysRemainingCard prediction={cylinder?.prediction} />
           </div>
+
+          {/* Cylinder 02 - Mock Oven Bank */}
+          <div className="lg:col-span-1">
+            <MockCylinderCard name="Cylinder 02 - Oven Bank" status="Healthy" percent={82} weight={24.2} />
+          </div>
+
+          {/* Cylinder 03 - Mock Backup */}
+          <div className="lg:col-span-1">
+            <MockCylinderCard name="Cylinder 03 - Backup Supply" status="Standby" percent={100} weight={29.5} />
+          </div>
+          
         </div>
 
         {/* Charts Grid */}

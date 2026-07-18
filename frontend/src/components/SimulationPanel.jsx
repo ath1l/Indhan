@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Activity, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Activity, AlertTriangle, RefreshCw, Flame } from 'lucide-react';
 
 const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15.3, onReadingAdded }) => {
   const fullWeight = capacity + tare;
@@ -24,6 +24,23 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
   const handleManualSubmit = () => submitReading(sliderValue);
   const handleSimulateLeak = () => submitReading(Math.max(tare, currentWeight - 2.0));
   const handleSimulateRefill = () => submitReading(fullWeight);
+  
+  const handleMidnightLeak = async () => {
+    setLoading(true);
+    try {
+      await axios.post(`/api/v1/cylinders/${cylinderId}/readings`, { 
+        weight_kg: 0.5, 
+        timestamp: new Date().toISOString() 
+      });
+      if (onReadingAdded) {
+        onReadingAdded();
+      }
+    } catch (err) {
+      console.error("Error submitting leak:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="mt-8 p-6 rounded-2xl bg-gray-900/50 border border-gray-800">
@@ -76,6 +93,17 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
             Simulate Refill (Full {fullWeight} kg)
           </button>
         </div>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-red-900/30">
+        <button 
+          onClick={handleMidnightLeak}
+          disabled={loading}
+          className="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 text-white rounded-lg py-3 transition-colors disabled:opacity-50 font-bold tracking-wide shadow-lg shadow-red-900/50"
+        >
+          <Flame className="w-5 h-5 mr-2" />
+          SIMULATE MIDNIGHT REGULATOR LEAK
+        </button>
       </div>
     </div>
   );

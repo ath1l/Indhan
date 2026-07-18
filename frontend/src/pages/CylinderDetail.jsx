@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ArrowLeft, Activity, Flame, DollarSign, Clock } from 'lucide-react';
 import WeightTrendChart from '../components/WeightTrendChart';
 import SimulationPanel from '../components/SimulationPanel';
+import CostProjectionCard from '../components/CostProjectionCard';
 
 const CylinderDetail = () => {
   const { id } = useParams();
@@ -96,16 +97,7 @@ const CylinderDetail = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-gray-900/50 border border-gray-800 flex flex-col">
-            <div className="flex items-center text-gray-400 mb-4">
-              <DollarSign className="w-5 h-5 mr-2 text-emerald-500" />
-              <span className="uppercase tracking-wider text-xs font-medium">Projected Cost</span>
-            </div>
-            <p className="text-4xl font-light text-white">
-              {cost?.currency} {cost?.projected_monthly_cost?.toFixed(2) || '0.00'}
-            </p>
-            <p className="text-xs text-gray-500 mt-2">per month</p>
-          </div>
+          <CostProjectionCard prediction={cylinder?.prediction} />
 
           <div className="p-6 rounded-2xl bg-gray-900/50 border border-gray-800 flex flex-col">
             <div className="flex items-center text-gray-400 mb-4">
