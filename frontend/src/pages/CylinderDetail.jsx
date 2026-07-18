@@ -13,7 +13,7 @@ const CylinderDetail = () => {
   const navigate = useNavigate();
   const [cylinder, setCylinder] = useState(null);
   const [history, setHistory] = useState([]);
-  const [cost, setCost] = useState(null);
+  const [_cost, setCost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [startDate, setStartDate] = useState('');
@@ -81,8 +81,8 @@ const CylinderDetail = () => {
   const hasReading = !!cylinder?.prediction;
   const status = hasReading ? "ACTIVE" : "STANDBY";
   
-  let statusColor = "text-red-600";
-  let statusBg = "bg-red-50 border-red-100";
+  let statusColor = "text-emerald-600";
+  let statusBg = "bg-emerald-50 border-emerald-100";
   let StatusIcon = CheckCircle2;
 
   if (!hasReading) {

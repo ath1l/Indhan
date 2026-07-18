@@ -18,27 +18,27 @@ const MockCylinderCard = ({ cylinder, onDelete }) => {
   const isLow = percent < 20;
   const isCritical = percent < 10;
   
-  let statusColor = "text-red-600";
-  let bgGlow = "bg-red-50 group-hover:bg-red-100";
-  let strokeColor = "#dc2626"; // red-600
+  let statusColor = "text-emerald-600";
+  let strokeColor = "#10b981"; // emerald-500
   let emptyStroke = "#f1f5f9"; // slate-100
-  let iconBg = "bg-red-50 border-red-100";
+  let iconBg = "bg-emerald-50 border-emerald-100";
+  let glowColor = "bg-emerald-500";
   
   if (isStandby) {
     statusColor = "text-slate-500";
-    bgGlow = "bg-slate-50 group-hover:bg-slate-100";
     strokeColor = "#94a3b8"; // slate-400
     iconBg = "bg-slate-100 border-slate-200";
+    glowColor = "bg-slate-500";
   } else if (isCritical) {
     statusColor = "text-red-700";
-    bgGlow = "bg-red-100 group-hover:bg-red-200";
     strokeColor = "#b91c1c"; // red-700
     iconBg = "bg-red-100 border-red-200";
+    glowColor = "bg-red-500";
   } else if (isLow) {
     statusColor = "text-amber-500";
-    bgGlow = "bg-amber-50 group-hover:bg-amber-100";
     strokeColor = "#f59e0b"; // amber-500
     iconBg = "bg-amber-50 border-amber-100";
+    glowColor = "bg-amber-500";
   }
 
   const Icon = isStandby ? PauseCircle : ShieldCheck;
@@ -92,7 +92,7 @@ const MockCylinderCard = ({ cylinder, onDelete }) => {
       <div className="flex items-center gap-6 mb-6 relative z-10">
         <div className="relative w-[76px] h-[76px] shrink-0">
           {/* Subtle glow behind gauge */}
-          <div className="absolute inset-0 rounded-full blur-md opacity-10 bg-red-500 mix-blend-multiply pointer-events-none"></div>
+          <div className={`absolute inset-0 rounded-full blur-md opacity-10 ${glowColor} mix-blend-multiply pointer-events-none`}></div>
           <svg className="w-full h-full transform -rotate-90">
             <circle
               cx="38"
