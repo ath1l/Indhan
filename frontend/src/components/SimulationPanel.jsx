@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Activity, AlertTriangle, RefreshCw, Flame } from 'lucide-react';
+import { Activity, AlertTriangle, RefreshCw, Flame, Clock, Droplet } from 'lucide-react';
 
 const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15.3, onReadingAdded }) => {
   const fullWeight = capacity + tare;
   const [sliderValue, setSliderValue] = useState(currentWeight || fullWeight);
+  const [gasConsumed, setGasConsumed] = useState(0.5);
+  const [durationMinutes, setDurationMinutes] = useState(60);
   const [loading, setLoading] = useState(false);
 
   const submitReading = async (weight) => {
@@ -21,26 +23,46 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
     }
   };
 
-  const handleManualSubmit = () => submitReading(sliderValue);
-  const handleSimulateLeak = () => submitReading(Math.max(tare, currentWeight - 2.0));
-  const handleSimulateRefill = () => submitReading(fullWeight);
-  
-  const handleMidnightLeak = async () => {
+  const handleManualSubmit = async () => {
     setLoading(true);
     try {
-      await axios.post(`/api/v1/cylinders/${cylinderId}/readings`, { 
-        weight_kg: 0.5, 
-        timestamp: new Date().toISOString() 
+      // Calculate delta and spread over 10 minutes to prevent instant spikes
+      const diff = currentWeight - sliderValue;
+      await axios.post(`/api/v1/cylinders/${cylinderId}/readings/simulate`, {
+        gas_consumed: diff,
+        duration_minutes: 10
       });
-      if (onReadingAdded) {
-        onReadingAdded();
-      }
+      if (onReadingAdded) onReadingAdded();
     } catch (err) {
-      console.error("Error submitting leak:", err);
+      console.error("Error with manual submission:", err);
     } finally {
       setLoading(false);
     }
   };
+  const handleSimulateRefill = () => submitReading(fullWeight);
+  
+  const handleCustomUsage = async () => {
+    setLoading(true);
+    try {
+      await axios.post(`/api/v1/cylinders/${cylinderId}/readings/simulate`, { 
+        gas_consumed: parseFloat(gasConsumed),
+        duration_minutes: parseInt(durationMinutes)
+      });
+      // Reset to defaults
+      setGasConsumed(0.5);
+      setDurationMinutes(60);
+      
+      if (onReadingAdded) {
+        onReadingAdded();
+      }
+    } catch (err) {
+      console.error("Error simulating usage:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
 
   return (
     <div className="mt-8 p-6 rounded-2xl bg-gray-900/50 border border-gray-800">
@@ -74,16 +96,51 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
           </button>
         </div>
 
-        {/* Quick Actions */}
-        <div className="space-y-4 flex flex-col justify-end">
+        {/* Custom Usage Scenario */}
+        <div className="space-y-4">
+          <label className="text-sm text-gray-400 block -mb-1">
+            Custom Usage Scenario
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <span className="text-xs text-gray-500 mb-1 block">Gas (kg)</span>
+              <div className="relative">
+                <Droplet className="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input 
+                  type="number" 
+                  step="0.1"
+                  min="0.1"
+                  value={gasConsumed}
+                  onChange={(e) => setGasConsumed(e.target.value)}
+                  className="w-full bg-gray-900 border border-gray-700 rounded-lg py-2 pl-9 pr-3 text-sm text-white focus:border-blue-500 focus:outline-none transition-colors"
+                />
+              </div>
+            </div>
+            <div>
+              <span className="text-xs text-gray-500 mb-1 block">Time (mins)</span>
+              <div className="relative">
+                <Clock className="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input 
+                  type="number" 
+                  step="1"
+                  min="1"
+                  value={durationMinutes}
+                  onChange={(e) => setDurationMinutes(e.target.value)}
+                  className="w-full bg-gray-900 border border-gray-700 rounded-lg py-2 pl-9 pr-3 text-sm text-white focus:border-blue-500 focus:outline-none transition-colors"
+                />
+              </div>
+            </div>
+          </div>
+          
           <button 
-            onClick={handleSimulateLeak}
+            onClick={handleCustomUsage}
             disabled={loading}
-            className="w-full flex items-center justify-center bg-red-950/30 hover:bg-red-900/50 border border-red-900/50 text-red-400 rounded-lg py-2 transition-colors disabled:opacity-50 font-medium"
+            className="w-full flex items-center justify-center bg-orange-950/30 hover:bg-orange-900/50 border border-orange-900/50 text-orange-400 rounded-lg py-2 transition-colors disabled:opacity-50 font-medium"
           >
-            <AlertTriangle className="w-4 h-4 mr-2" />
-            Simulate Leak (-2 kg)
+            <Activity className="w-4 h-4 mr-2" />
+            Run Simulation
           </button>
+          
           <button 
             onClick={handleSimulateRefill}
             disabled={loading}
@@ -95,16 +152,6 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
         </div>
       </div>
 
-      <div className="mt-8 pt-6 border-t border-red-900/30">
-        <button 
-          onClick={handleMidnightLeak}
-          disabled={loading}
-          className="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 text-white rounded-lg py-3 transition-colors disabled:opacity-50 font-bold tracking-wide shadow-lg shadow-red-900/50"
-        >
-          <Flame className="w-5 h-5 mr-2" />
-          SIMULATE MIDNIGHT REGULATOR LEAK
-        </button>
-      </div>
     </div>
   );
 };

@@ -32,7 +32,8 @@ const WeightTrendChart = ({ history }) => {
               minTickGap={30}
               label={{ value: 'Date / Time', position: 'insideBottomRight', offset: 0, fill: '#9ca3af', fontSize: 12 }}
               tickFormatter={(val) => {
-                return new Date(val).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const date = new Date(val);
+                return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
               }}
             />
             <YAxis 

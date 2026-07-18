@@ -1,7 +1,7 @@
 import React from 'react';
-import { ShieldCheck, PauseCircle } from 'lucide-react';
+import { ShieldCheck, PauseCircle, Trash2 } from 'lucide-react';
 
-const MockCylinderCard = ({ name, status, percent, weight }) => {
+const MockCylinderCard = ({ name, status, percent, weight, onDelete }) => {
   const isStandby = status === 'Standby';
   const colorClass = isStandby ? 'text-gray-400 bg-gray-950/50 border-gray-800' : 'text-emerald-400 bg-emerald-950/20 border-emerald-900/30';
   const Icon = isStandby ? PauseCircle : ShieldCheck;
@@ -12,6 +12,15 @@ const MockCylinderCard = ({ name, status, percent, weight }) => {
         <h2 className={`text-sm font-medium uppercase tracking-wider ${isStandby ? 'text-gray-500' : 'text-emerald-500'}`}>
           {name}
         </h2>
+        {onDelete && (
+          <button 
+            onClick={onDelete}
+            className="text-gray-600 hover:text-red-500 p-1.5 -mr-1.5 -mt-1.5 rounded-md hover:bg-red-950/30 transition-colors z-10"
+            title="Delete Cylinder"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        )}
       </div>
       
       <div className="flex items-end space-x-2 mb-6">

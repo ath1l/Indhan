@@ -90,6 +90,18 @@ const Dashboard = () => {
     document.body.removeChild(link);
   };
 
+  const handleDeleteCylinder = async (id) => {
+    if (window.confirm("Are you sure you want to delete this cylinder? All telemetry data will be permanently lost.")) {
+      try {
+        await axios.delete(`/api/v1/cylinders/${id}`);
+        setRefreshTrigger(prev => prev + 1);
+      } catch (err) {
+        console.error("Failed to delete cylinder:", err);
+        alert("Failed to delete cylinder.");
+      }
+    }
+  };
+
   const cylinder = data?.cylinders?.[0];
 
   return (
@@ -212,6 +224,10 @@ const Dashboard = () => {
                   status={hasReading ? "Active" : "Standby"} 
                   percent={hasReading ? percent : 100} 
                   weight={currentWeight} 
+                  onDelete={(e) => {
+                    e.stopPropagation();
+                    handleDeleteCylinder(cyl.id);
+                  }}
                 />
               </div>
             );

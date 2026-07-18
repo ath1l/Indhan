@@ -1,4 +1,5 @@
 const Cylinder = require('../models/Cylinder');
+const Reading = require('../models/Reading');
 
 exports.getAllCylinders = async (req, res) => {
   try {
@@ -34,6 +35,20 @@ exports.createCylinder = async (req, res) => {
     });
     const cylinder = await newCylinder.save();
     res.status(201).json(cylinder);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deleteCylinder = async (req, res) => {
+  try {
+    const cylinder = await Cylinder.findByIdAndDelete(req.params.id);
+    if (!cylinder) {
+      return res.status(404).json({ message: 'Cylinder not found' });
+    }
+    // Cleanup orphaned telemetry
+    await Reading.deleteMany({ cylinder_id: req.params.id });
+    res.status(200).json({ message: 'Cylinder deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

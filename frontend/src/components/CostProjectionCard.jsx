@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { DollarSign, TrendingUp } from 'lucide-react';
 
 const CostProjectionCard = ({ prediction }) => {
-  const [simulatedPrice, setSimulatedPrice] = useState(80);
+  const [simulatedPrice, setSimulatedPrice] = useState(65.69);
   
-  const burnRate = prediction?.burn_rate_kg_per_day || 0;
-  const baseMonthlyCost = burnRate * 30 * 80;
+  // Use the decoupled 7-day average burn rate for stable budgets
+  const burnRate = prediction?.rolling_avg_burn_rate !== undefined 
+    ? prediction.rolling_avg_burn_rate 
+    : (prediction?.burn_rate_kg_per_day || 0);
+    
+  const baseMonthlyCost = burnRate * 30 * 65.69;
   const projectedMonthlyCost = burnRate * 30 * simulatedPrice;
   const variance = projectedMonthlyCost - baseMonthlyCost;
 
@@ -15,7 +19,7 @@ const CostProjectionCard = ({ prediction }) => {
         <div className="flex items-center justify-between text-gray-400 mb-4">
           <div className="flex items-center">
             <DollarSign className="w-5 h-5 mr-2 text-emerald-500" />
-            <span className="uppercase tracking-wider text-xs font-medium">Projected Budget</span>
+            <span className="uppercase tracking-wider text-xs font-medium">Projected Budget (7-Day Avg)</span>
           </div>
           {variance > 0 && (
             <span className="flex items-center text-xs font-medium text-red-400 bg-red-950/50 px-2 py-1 rounded-md">

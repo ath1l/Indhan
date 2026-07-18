@@ -24,23 +24,25 @@ def detect_anomalies(readings: List[Dict[str, Any]], zscore_threshold: float = 2
 
         if std and abs(current_value - mean) > zscore_threshold * std:
             anomaly_type = "spike" if current_value > mean else "drop"
-            anomalies.append({
-                "id": f"anom-{index}",
-                "type": anomaly_type,
-                "severity": "high" if relative_change > 0.15 else "medium",
-                "message": f"{anomaly_type.title()} detected in weight reading",
-                "timestamp": item["timestamp"],
-                "value": round(current_value, 2),
-            })
+            if anomaly_type != "spike":
+                anomalies.append({
+                    "id": f"anom-{index}",
+                    "type": anomaly_type,
+                    "severity": "high" if relative_change > 0.15 else "medium",
+                    "message": f"{anomaly_type.title()} detected in weight reading",
+                    "timestamp": item["timestamp"],
+                    "value": round(current_value, 2),
+                })
         elif relative_change > 0.12:
             anomaly_type = "spike" if delta > 0 else "drop"
-            anomalies.append({
-                "id": f"anom-{index}",
-                "type": anomaly_type,
-                "severity": "medium",
-                "message": f"Rapid {anomaly_type} in weight reading",
-                "timestamp": item["timestamp"],
-                "value": round(current_value, 2),
-            })
+            if anomaly_type != "spike":
+                anomalies.append({
+                    "id": f"anom-{index}",
+                    "type": anomaly_type,
+                    "severity": "medium",
+                    "message": f"Rapid {anomaly_type} in weight reading",
+                    "timestamp": item["timestamp"],
+                    "value": round(current_value, 2),
+                })
 
     return anomalies

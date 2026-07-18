@@ -5,5 +5,6 @@ const cylindersController = require('../controllers/cylindersController');
 router.get('/', cylindersController.getAllCylinders);
 router.get('/:id', cylindersController.getCylinderById);
 router.post('/', cylindersController.createCylinder);
+router.delete('/:id', cylindersController.deleteCylinder);
 
 module.exports = router;
