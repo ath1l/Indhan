@@ -6,7 +6,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List
 
-def simulate_weight_series(start_time: datetime | None = None, period_hours: int = 6, points: int = 40, base_weight_kg: float = 14.2, decay_rate_kg_per_day: float = 0.3) -> List[Dict[str, Any]]:
+def simulate_weight_series(start_time: datetime | None = None, period_hours: int = 6, points: int = 40, base_weight_kg: float = 29.5, decay_rate_kg_per_day: float = 0.3) -> List[Dict[str, Any]]:
     """Generate a synthetic weight series that decays over time."""
     if start_time is None:
         start_time = datetime.now(timezone.utc) - timedelta(days=points * period_hours / 24.0)

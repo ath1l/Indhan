@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, Activity, Flame, DollarSign, Clock } from 'lucide-react';
 import WeightTrendChart from '../components/WeightTrendChart';
+import SimulationPanel from '../components/SimulationPanel';
 
 const CylinderDetail = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const CylinderDetail = () => {
   const [history, setHistory] = useState([]);
   const [cost, setCost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -34,7 +36,11 @@ const CylinderDetail = () => {
       }
     };
     fetchDetails();
-  }, [id]);
+  }, [id, refreshTrigger]);
+
+  const handleReadingAdded = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   if (loading) {
     return (
@@ -117,9 +123,18 @@ const CylinderDetail = () => {
         </div>
 
         {/* Big Chart */}
-        <div className="h-96">
+        <div className="h-96 mb-8">
           <WeightTrendChart history={history} />
         </div>
+
+        {/* Live ML Simulation Panel */}
+        <SimulationPanel 
+          cylinderId={id} 
+          currentWeight={cylinder?.prediction?.current_weight_kg || (cylinder?.capacity_kg + cylinder?.tare_weight_kg)}
+          capacity={cylinder?.capacity_kg}
+          tare={cylinder?.tare_weight_kg}
+          onReadingAdded={handleReadingAdded}
+        />
 
       </div>
     </div>
