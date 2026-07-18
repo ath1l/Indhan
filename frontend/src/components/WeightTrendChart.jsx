@@ -14,9 +14,12 @@ const WeightTrendChart = ({ history }) => {
     <div className="p-8 glass-panel glass-panel-hover flex flex-col relative overflow-hidden group h-full">
       <div className="absolute -top-32 -left-32 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-teal-500/20 transition-all"></div>
       
-      <h2 className="text-teal-300 text-xs font-semibold uppercase tracking-widest mb-6 relative z-10 flex items-center gap-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-teal-400 drop-shadow-[0_0_5px_rgba(45,212,191,0.8)]"></span>
-        Weight Trend (30 Days)
+      <h2 className="text-teal-300 text-xs font-semibold uppercase tracking-widest mb-6 relative z-10 flex items-center justify-between">
+        <span className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-teal-400 drop-shadow-[0_0_5px_rgba(45,212,191,0.8)]"></span>
+          Telemetry & Future Projection
+        </span>
+        <span className="text-gray-500 text-[10px] bg-white/5 px-2 py-1 rounded">Dashed line = Predicted Drain</span>
       </h2>
       <div className="flex-grow w-full h-72 relative z-10">
         <ResponsiveContainer width="100%" height="100%">
@@ -51,7 +54,10 @@ const WeightTrendChart = ({ history }) => {
               contentStyle={{ backgroundColor: 'rgba(3, 6, 20, 0.8)', backdropFilter: 'blur(12px)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '1rem', color: '#f3f4f6', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)' }}
               itemStyle={{ color: '#2dd4bf', fontWeight: 'bold' }}
               labelFormatter={(label) => new Date(label).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-              formatter={(value) => [`${value} kg`, 'Weight']}
+              formatter={(value, name) => {
+                if (name === 'projected_weight_kg') return [`${value} kg`, 'Projected Empty Date'];
+                return [`${value} kg`, 'Actual Weight'];
+              }}
             />
             <Area 
               type="monotone" 
@@ -60,6 +66,14 @@ const WeightTrendChart = ({ history }) => {
               strokeWidth={3}
               fillOpacity={1} 
               fill="url(#colorWeight)" 
+            />
+            <Area 
+              type="linear" 
+              dataKey="projected_weight_kg" 
+              stroke="#94a3b8" 
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              fillOpacity={0} 
             />
           </AreaChart>
         </ResponsiveContainer>

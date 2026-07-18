@@ -50,6 +50,20 @@ def main():
                         "days_remaining": pred["days_remaining"],
                         "burn_rate_kg_per_day": pred["burn_rate_kg_per_day"]
                     })
+                
+                # Inject a bridge point for Recharts
+                history[-1]["projected_weight_kg"] = history[-1]["weight_kg"]
+                
+                # Append future projection point
+                final_pred = predict_depletion(readings, tare_weight_kg, capacity_kg)
+                if final_pred["days_remaining"] > 0:
+                    history.append({
+                        "date": final_pred["est_empty_at"],
+                        "weight_kg": None,
+                        "projected_weight_kg": tare_weight_kg,
+                        "days_remaining": 0,
+                        "burn_rate_kg_per_day": final_pred["burn_rate_kg_per_day"]
+                    })
             print(json.dumps(history))
             
         elif action == "anomalies":

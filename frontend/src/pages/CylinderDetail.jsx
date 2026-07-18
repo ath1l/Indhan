@@ -14,6 +14,7 @@ const CylinderDetail = () => {
   const [cost, setCost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [startDate, setStartDate] = useState('');
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -32,7 +33,7 @@ const CylinderDetail = () => {
         }
 
         // Fetch history
-        const histRes = await axios.get(`/api/v1/cylinders/${id}/prediction/history`);
+        const histRes = await axios.get(`/api/v1/cylinders/${id}/prediction/history${startDate ? `?startDate=${startDate}` : ''}`);
         // Fetch cost intelligence
         const costRes = await axios.get(`/api/v1/cylinders/${id}/cost`);
         // Fetch prediction
@@ -49,7 +50,7 @@ const CylinderDetail = () => {
       }
     };
     fetchDetails();
-  }, [id, refreshTrigger]);
+  }, [id, refreshTrigger, startDate]);
 
   const handleReadingAdded = () => {
     setRefreshTrigger(prev => prev + 1);
@@ -87,6 +88,16 @@ const CylinderDetail = () => {
             </p>
           </div>
           <div className="flex gap-4">
+            <div className="flex items-center bg-white/5 border border-white/10 rounded-lg overflow-hidden">
+              <span className="px-3 text-sm text-gray-500 border-r border-white/10">Filter</span>
+              <input 
+                type="date" 
+                className="bg-transparent border-none text-sm text-gray-300 focus:ring-0 p-2 cursor-pointer outline-none"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                title="Filter graph from date"
+              />
+            </div>
             <div className="px-5 py-2.5 glass-panel text-sm text-gray-400 font-medium">
               Capacity: <span className="text-white ml-1">{cylinder?.capacity_kg} kg</span>
             </div>
