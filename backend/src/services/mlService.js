@@ -1,4 +1,4 @@
-const { execFile } = require('child_process');
+const { spawn } = require('child_process');
 const path = require('path');
 const Cylinder = require('../models/Cylinder');
 const Reading = require('../models/Reading');
@@ -33,28 +33,38 @@ const executePythonML = async (action, cylinderId) => {
       const inputString = JSON.stringify(inputData);
 
       // 2. Spawn python and pass data via stdin
-      const child = execFile('python', [GATEWAY_SCRIPT, action, cylinderId], (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error executing ML Gateway [${action}]:`, error);
-          console.error(`stderr: ${stderr}`);
-          return reject(error);
-        }
-        
-        try {
-          const result = JSON.parse(stdout);
-          if (result.error) {
-              return reject(new Error(result.error));
-          }
-          resolve(result);
-        } catch (parseErr) {
-          console.error(`Failed to parse ML Gateway output [${action}]:`, parseErr);
-          console.error(`Raw output: ${stdout}`);
-          reject(parseErr);
-        }
-      });
+      const pythonProcess = spawn('python', [GATEWAY_SCRIPT, action, cylinderId]);
       
-      child.stdin.write(inputString);
-      child.stdin.end();
+      let outputData = '';
+      let errorData = '';
+
+      pythonProcess.stdin.write(inputString);
+      pythonProcess.stdin.end();
+
+      pythonProcess.stdout.on('data', (data) => {
+          outputData += data.toString();
+      });
+
+      pythonProcess.stderr.on('data', (data) => {
+          errorData += data.toString();
+      });
+
+      pythonProcess.on('close', (code) => {
+          if (code !== 0) {
+              return reject(new Error(`Python process exited with code ${code}. Error: ${errorData}`));
+          }
+          try {
+              const result = JSON.parse(outputData);
+              if (result.error) {
+                  return reject(new Error(result.error));
+              }
+              resolve(result);
+          } catch (parseErr) {
+              console.error(`Failed to parse ML Gateway output [${action}]:`, parseErr);
+              console.error(`Raw output: ${outputData}`);
+              reject(parseErr);
+          }
+      });
 
     } catch (dbErr) {
       reject(dbErr);

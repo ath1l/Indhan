@@ -16,8 +16,7 @@ const Login = () => {
     setError(null);
     try {
       const res = await axios.post('/api/v1/auth/login', { email, password });
-      // In a real app we'd store the token here:
-      // localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.token);
       navigate('/');
     } catch (err) {
       setError('Invalid credentials or server error.');
