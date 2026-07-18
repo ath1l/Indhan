@@ -1,7 +1,7 @@
 {
   "cylinders": [
     {
-      "id": "cyl000000000000000000001",
+      "id": "60c72b2f9b1d8b001c8e4d3a",
       "name": "Kitchen Main",
       "tare_weight_kg": 15.3,
       "capacity_kg": 14.2
@@ -9,14 +9,204 @@
   ],
   "readings": [
     {
-      "cylinder_id": "cyl000000000000000000001",
-      "timestamp": "2026-07-17T08:00:00Z",
-      "weight_kg": 6.1
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-08T17:28:36.722807Z",
+      "weight_kg": 14.2
     },
     {
-      "cylinder_id": "cyl000000000000000000001",
-      "timestamp": "2026-07-18T10:00:00Z",
-      "weight_kg": 5.26
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-08T23:28:36.722807Z",
+      "weight_kg": 14.12
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T05:28:36.722807Z",
+      "weight_kg": 14.05
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T11:28:36.722807Z",
+      "weight_kg": 13.97
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T17:28:36.722807Z",
+      "weight_kg": 13.9
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T23:28:36.722807Z",
+      "weight_kg": 13.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T05:28:36.722807Z",
+      "weight_kg": 13.75
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T11:28:36.722807Z",
+      "weight_kg": 13.67
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T17:28:36.722807Z",
+      "weight_kg": 13.6
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T23:28:36.722807Z",
+      "weight_kg": 13.52
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T05:28:36.722807Z",
+      "weight_kg": 13.45
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T11:28:36.722807Z",
+      "weight_kg": 13.38
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T17:28:36.722807Z",
+      "weight_kg": 13.3
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T23:28:36.722807Z",
+      "weight_kg": 13.22
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T05:28:36.722807Z",
+      "weight_kg": 13.15
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T11:28:36.722807Z",
+      "weight_kg": 12.72
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T17:28:36.722807Z",
+      "weight_kg": 13.0
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T23:28:36.722807Z",
+      "weight_kg": 12.92
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T05:28:36.722807Z",
+      "weight_kg": 12.85
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T11:28:36.722807Z",
+      "weight_kg": 12.77
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T17:28:36.722807Z",
+      "weight_kg": 12.7
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T23:28:36.722807Z",
+      "weight_kg": 12.62
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T05:28:36.722807Z",
+      "weight_kg": 12.55
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T11:28:36.722807Z",
+      "weight_kg": 12.47
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T17:28:36.722807Z",
+      "weight_kg": 12.4
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T23:28:36.722807Z",
+      "weight_kg": 12.32
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T05:28:36.722807Z",
+      "weight_kg": 12.25
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T11:28:36.722807Z",
+      "weight_kg": 12.17
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T17:28:36.722807Z",
+      "weight_kg": 13.54
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T23:28:36.722807Z",
+      "weight_kg": 12.02
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T05:28:36.722807Z",
+      "weight_kg": 11.95
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T11:28:36.722807Z",
+      "weight_kg": 11.88
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T17:28:36.722807Z",
+      "weight_kg": 11.8
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T23:28:36.722807Z",
+      "weight_kg": 11.72
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T05:28:36.722807Z",
+      "weight_kg": 11.65
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T11:28:36.722807Z",
+      "weight_kg": 11.57
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T17:28:36.722807Z",
+      "weight_kg": 11.5
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T23:28:36.722807Z",
+      "weight_kg": 11.42
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T05:28:36.722807Z",
+      "weight_kg": 11.35
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T11:28:36.722807Z",
+      "weight_kg": 11.27
     }
   ]
 }
