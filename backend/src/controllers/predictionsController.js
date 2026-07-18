@@ -17,11 +17,15 @@ exports.getPrediction = async (req, res) => {
 
 exports.getPredictionHistory = async (req, res) => {
   try {
-    const readings = await Reading.find({ cylinder_id: req.params.id });
+    const { startDate } = req.query;
+    let query = { cylinder_id: req.params.id };
+    if (startDate) query.timestamp = { $gte: new Date(startDate) };
+    
+    const readings = await Reading.find(query);
     if (!readings || readings.length < 2) {
       return res.status(200).json([]);
     }
-    const history = await mlService.getPredictionHistory(req.params.id);
+    const history = await mlService.getPredictionHistory(req.params.id, { startDate });
     res.status(200).json(history);
   } catch (error) {
     console.error(`History Error:`, error.message);

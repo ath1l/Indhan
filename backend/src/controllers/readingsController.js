@@ -19,8 +19,18 @@ exports.addReading = async (req, res) => {
 
 exports.getReadings = async (req, res) => {
   try {
+    const { startDate, includeSimulations } = req.query;
     const cylinder_id = req.params.id;
-    const readings = await Reading.find({ cylinder_id }).sort({ timestamp: -1 });
+    let query = { cylinder_id };
+    
+    if (startDate) {
+      query.timestamp = { $gte: new Date(startDate) };
+    }
+    if (includeSimulations === 'false') {
+      query.type = 'real';
+    }
+
+    const readings = await Reading.find(query).sort({ timestamp: -1 });
     res.status(200).json(readings);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -63,7 +73,8 @@ exports.simulateUsage = async (req, res) => {
       readingsToInsert.push({
         cylinder_id,
         weight_kg: parseFloat(pointWeight.toFixed(3)),
-        timestamp: pointTime
+        timestamp: pointTime,
+        type: 'simulation'
       });
     }
 

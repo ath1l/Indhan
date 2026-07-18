@@ -7,6 +7,7 @@ import WeightTrendChart from '../components/WeightTrendChart';
 import AnomalyAlert from '../components/AnomalyAlert';
 import MockCylinderCard from '../components/MockCylinderCard';
 import AddCylinderModal from '../components/AddCylinderModal';
+import GasLevelIndicator from '../components/GasLevelIndicator';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Dashboard = () => {
   const [history, setHistory] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [startDate, setStartDate] = useState('');
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -26,7 +28,7 @@ const Dashboard = () => {
         // Mock fetching history for the chart since dashboard/summary doesn't return the full history
         if (res.data.cylinders && res.data.cylinders.length > 0) {
           const cylId = res.data.cylinders[0].id;
-          const histRes = await axios.get(`/api/v1/cylinders/${cylId}/prediction/history`);
+          const histRes = await axios.get(`/api/v1/cylinders/${cylId}/prediction/history${startDate ? `?startDate=${startDate}` : ''}`);
           setHistory(histRes.data);
         }
         
@@ -38,7 +40,7 @@ const Dashboard = () => {
     };
 
     fetchDashboard();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, startDate]);
 
   if (loading) {
     return (
@@ -132,6 +134,16 @@ const Dashboard = () => {
           <div className="h-10 w-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400">
             {cylinder?.name?.charAt(0) || 'C'}
           </div>
+          <div className="flex items-center bg-gray-900/50 border border-gray-800 rounded-lg overflow-hidden">
+            <span className="px-3 text-sm text-gray-500 border-r border-gray-800">Filter Data</span>
+            <input 
+              type="date" 
+              className="bg-transparent border-none text-sm text-gray-300 focus:ring-0 p-2 cursor-pointer outline-none"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              title="Filter graph from date"
+            />
+          </div>
           <button 
             onClick={() => setIsAddModalOpen(true)}
             className="ml-4 flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-lg shadow-blue-900/20"
@@ -191,11 +203,13 @@ const Dashboard = () => {
                 </h2>
                 <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
               </div>
-              <div className="flex items-end space-x-2">
-                <span className="text-5xl font-light tracking-tighter text-white">
-                  {cylinder?.latest_reading?.weight_kg?.toFixed(2) || '0.00'}
-                </span>
-                <span className="text-xl text-gray-500 pb-1">kg</span>
+              <div className="my-6">
+                <GasLevelIndicator 
+                  currentWeight={cylinder?.latest_reading?.weight_kg || 29.5} 
+                  capacity={cylinder?.capacity_kg || 14.2} 
+                  tare={cylinder?.tare_weight_kg || 15.3}
+                  size="large"
+                />
               </div>
               <div className="mt-6 flex items-center text-sm text-gray-500">
                 <Activity className="w-4 h-4 mr-2" />

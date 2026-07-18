@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, PauseCircle, Trash2 } from 'lucide-react';
+import GasLevelIndicator from './GasLevelIndicator';
 
 const MockCylinderCard = ({ name, status, percent, weight, onDelete }) => {
   const isStandby = status === 'Standby';
@@ -23,28 +24,15 @@ const MockCylinderCard = ({ name, status, percent, weight, onDelete }) => {
         )}
       </div>
       
-      <div className="flex items-end space-x-2 mb-6">
-        <span className="text-4xl font-light tracking-tighter text-white">
-          {weight.toFixed(2)}
-        </span>
-        <span className="text-xl text-gray-500 pb-1">kg</span>
+      <div className="mb-2">
+        <GasLevelIndicator currentWeight={weight} size="small" />
       </div>
 
-      <div className="mt-auto space-y-4">
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-400 flex items-center gap-2">
-            <Icon className="w-4 h-4" />
-            {status}
-          </span>
-          <span className="text-gray-300">{percent}% Full</span>
-        </div>
-        
-        <div className="w-full bg-gray-800 rounded-full h-1.5 overflow-hidden">
-          <div 
-            className={`h-1.5 rounded-full ${isStandby ? 'bg-gray-600' : 'bg-emerald-500'}`} 
-            style={{ width: `${percent}%` }}
-          ></div>
-        </div>
+      <div className="mt-auto flex items-center justify-between text-sm pt-4 border-t border-gray-800/50">
+        <span className="text-gray-400 flex items-center gap-2">
+          <Icon className="w-4 h-4" />
+          {status}
+        </span>
       </div>
     </div>
   );

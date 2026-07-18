@@ -15,6 +15,8 @@ def detect_anomalies(readings: List[Dict[str, Any]], zscore_threshold: float = 2
 
     anomalies: List[Dict[str, Any]] = []
     for index, item in enumerate(readings):
+        if item.get("type") == "simulation":
+            continue
         if index == 0:
             continue
         prev_value = float(readings[index - 1]["weight_kg"])

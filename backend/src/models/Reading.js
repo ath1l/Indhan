@@ -14,6 +14,11 @@ const readingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  type: {
+    type: String,
+    enum: ['real', 'simulation'],
+    default: 'real',
+  },
 });
 
 module.exports = mongoose.model('Reading', readingSchema);
