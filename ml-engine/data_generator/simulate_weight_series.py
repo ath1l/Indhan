@@ -6,23 +6,42 @@ import os
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List
 
-def simulate_weight_series(start_time: datetime | None = None, period_hours: int = 6, points: int = 40, base_weight_kg: float = 14.2, decay_rate_kg_per_day: float = 0.3) -> List[Dict[str, Any]]:
-    """Generate a synthetic weight series that decays over time."""
+def simulate_weight_series(start_time: datetime | None = None, period_hours: int = 2, points: int = 150, base_weight_kg: float = 29.5, decay_rate_kg_per_day: float = 2.5) -> List[Dict[str, Any]]:
+    """Generate a synthetic weight series with sawtooth refills and off-hours flatlining."""
     if start_time is None:
-        start_time = datetime.now(timezone.utc) - timedelta(days=points * period_hours / 24.0)
+        start_time = datetime.now(timezone.utc) - timedelta(hours=points * period_hours)
 
     series: List[Dict[str, Any]] = []
+    current_weight = base_weight_kg
+    tare_weight = 15.3
+
     for index in range(points):
         timestamp = start_time + timedelta(hours=index * period_hours)
-        weight = max(base_weight_kg - (decay_rate_kg_per_day * (index * period_hours / 24.0)), 0.0)
+        hour = timestamp.hour
         
-        # Inject anomalies for Isolation Forest / Z-score detection
-        if index in [15, 28]:
-            weight += random.uniform(-1.0, 1.5)
+        # 1. Check if we need to refill (Sawtooth snap-up)
+        if current_weight < (tare_weight + 0.5):
+            current_weight = base_weight_kg # Instant refill!
+        else:
+            # 2. Check if restaurant is closed (Flat line)
+            is_closed = hour >= 23 or hour < 6
+            if not is_closed:
+                # Burn gas during open hours
+                drop_per_period = (decay_rate_kg_per_day / 17.0) * period_hours # 17 open hours
+                # Add slight noise to burn rate
+                drop_per_period *= random.uniform(0.8, 1.2)
+                current_weight -= drop_per_period
+                
+        # 3. Inject Regulator Leak Anomaly at a specific index
+        if index == int(points * 0.75):
+            current_weight -= 8.0 # Sudden massive drop!
             
+        # Ensure we don't go below tare in normal physics
+        current_weight = max(current_weight, tare_weight)
+
         series.append({
             "timestamp": timestamp.isoformat().replace("+00:00", "Z"),
-            "weight_kg": round(weight, 2),
+            "weight_kg": round(current_weight, 2),
         })
     return series
 

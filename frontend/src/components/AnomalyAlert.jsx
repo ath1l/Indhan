@@ -26,10 +26,10 @@ const AnomalyAlert = ({ anomalies, cylinderId, onDismiss }) => {
           <div className="flex-grow pt-1">
             <h3 className="text-orange-300 font-medium text-sm tracking-wide uppercase">{anomaly.type} Detected</h3>
             <p className="text-orange-200/70 text-sm mt-1 leading-relaxed">
-              {anomaly.description}
+              {anomaly.message}
             </p>
             <p className="text-xs text-orange-400/50 mt-2">
-              Detected at: {new Date(anomaly.detected_at).toLocaleString()}
+              Detected at: {new Date(anomaly.timestamp).toLocaleString()}
             </p>
           </div>
           <button 

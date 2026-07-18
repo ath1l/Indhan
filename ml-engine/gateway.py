@@ -45,7 +45,8 @@ def main():
                     slice_readings = readings[:i]
                     pred = predict_depletion(slice_readings, tare_weight_kg, capacity_kg)
                     history.append({
-                        "date": slice_readings[-1]["timestamp"][:10],
+                        "date": slice_readings[-1]["timestamp"],
+                        "weight_kg": slice_readings[-1]["weight_kg"],
                         "days_remaining": pred["days_remaining"],
                         "burn_rate_kg_per_day": pred["burn_rate_kg_per_day"]
                     })

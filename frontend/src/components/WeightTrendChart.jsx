@@ -29,24 +29,29 @@ const WeightTrendChart = ({ history }) => {
               tick={{fill: '#6b7280', fontSize: 12}} 
               tickLine={false}
               axisLine={false}
+              minTickGap={30}
+              label={{ value: 'Date / Time', position: 'insideBottomRight', offset: 0, fill: '#9ca3af', fontSize: 12 }}
               tickFormatter={(val) => {
-                const date = new Date(val);
-                return `${date.getMonth()+1}/${date.getDate()}`;
+                return new Date(val).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
               }}
             />
             <YAxis 
+              domain={[0, 35]}
               stroke="#4b5563" 
               tick={{fill: '#6b7280', fontSize: 12}} 
               tickLine={false}
               axisLine={false}
+              label={{ value: 'Weight (kg)', angle: -90, position: 'insideLeft', fill: '#9ca3af', fontSize: 12, style: { textAnchor: 'middle' } }}
             />
             <Tooltip 
               contentStyle={{ backgroundColor: '#111827', borderColor: '#374151', borderRadius: '0.5rem', color: '#f3f4f6' }}
               itemStyle={{ color: '#60a5fa' }}
+              labelFormatter={(label) => new Date(label).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              formatter={(value) => [`${value} kg`, 'Weight']}
             />
             <Area 
               type="monotone" 
-              dataKey="days_remaining" 
+              dataKey="weight_kg" 
               stroke="#3b82f6" 
               strokeWidth={3}
               fillOpacity={1} 

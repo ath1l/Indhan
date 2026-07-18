@@ -10,203 +10,753 @@
   "readings": [
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-08T17:28:36.722807Z",
-      "weight_kg": 14.2
+      "timestamp": "2026-07-06T05:59:32.451739Z",
+      "weight_kg": 29.5
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-08T23:28:36.722807Z",
-      "weight_kg": 14.12
+      "timestamp": "2026-07-06T07:59:32.451739Z",
+      "weight_kg": 29.18
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-09T05:28:36.722807Z",
-      "weight_kg": 14.05
+      "timestamp": "2026-07-06T09:59:32.451739Z",
+      "weight_kg": 28.83
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-09T11:28:36.722807Z",
-      "weight_kg": 13.97
+      "timestamp": "2026-07-06T11:59:32.451739Z",
+      "weight_kg": 28.51
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-09T17:28:36.722807Z",
-      "weight_kg": 13.9
+      "timestamp": "2026-07-06T13:59:32.451739Z",
+      "weight_kg": 28.19
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-09T23:28:36.722807Z",
-      "weight_kg": 13.82
+      "timestamp": "2026-07-06T15:59:32.451739Z",
+      "weight_kg": 27.87
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-10T05:28:36.722807Z",
-      "weight_kg": 13.75
+      "timestamp": "2026-07-06T17:59:32.451739Z",
+      "weight_kg": 27.58
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-10T11:28:36.722807Z",
-      "weight_kg": 13.67
+      "timestamp": "2026-07-06T19:59:32.451739Z",
+      "weight_kg": 27.28
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-10T17:28:36.722807Z",
-      "weight_kg": 13.6
+      "timestamp": "2026-07-06T21:59:32.451739Z",
+      "weight_kg": 26.97
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-10T23:28:36.722807Z",
-      "weight_kg": 13.52
+      "timestamp": "2026-07-06T23:59:32.451739Z",
+      "weight_kg": 26.97
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-11T05:28:36.722807Z",
-      "weight_kg": 13.45
+      "timestamp": "2026-07-07T01:59:32.451739Z",
+      "weight_kg": 26.97
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-11T11:28:36.722807Z",
-      "weight_kg": 13.38
+      "timestamp": "2026-07-07T03:59:32.451739Z",
+      "weight_kg": 26.97
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-11T17:28:36.722807Z",
-      "weight_kg": 13.3
+      "timestamp": "2026-07-07T05:59:32.451739Z",
+      "weight_kg": 26.97
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-11T23:28:36.722807Z",
-      "weight_kg": 13.22
+      "timestamp": "2026-07-07T07:59:32.451739Z",
+      "weight_kg": 26.67
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-12T05:28:36.722807Z",
-      "weight_kg": 13.15
+      "timestamp": "2026-07-07T09:59:32.451739Z",
+      "weight_kg": 26.35
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-12T11:28:36.722807Z",
-      "weight_kg": 12.72
+      "timestamp": "2026-07-07T11:59:32.451739Z",
+      "weight_kg": 26.01
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-12T17:28:36.722807Z",
-      "weight_kg": 13.0
+      "timestamp": "2026-07-07T13:59:32.451739Z",
+      "weight_kg": 25.66
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-12T23:28:36.722807Z",
-      "weight_kg": 12.92
+      "timestamp": "2026-07-07T15:59:32.451739Z",
+      "weight_kg": 25.34
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-13T05:28:36.722807Z",
-      "weight_kg": 12.85
+      "timestamp": "2026-07-07T17:59:32.451739Z",
+      "weight_kg": 25.05
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-13T11:28:36.722807Z",
-      "weight_kg": 12.77
+      "timestamp": "2026-07-07T19:59:32.451739Z",
+      "weight_kg": 24.73
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-13T17:28:36.722807Z",
-      "weight_kg": 12.7
+      "timestamp": "2026-07-07T21:59:32.451739Z",
+      "weight_kg": 24.41
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-13T23:28:36.722807Z",
-      "weight_kg": 12.62
+      "timestamp": "2026-07-07T23:59:32.451739Z",
+      "weight_kg": 24.41
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-14T05:28:36.722807Z",
-      "weight_kg": 12.55
+      "timestamp": "2026-07-08T01:59:32.451739Z",
+      "weight_kg": 24.41
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-14T11:28:36.722807Z",
-      "weight_kg": 12.47
+      "timestamp": "2026-07-08T03:59:32.451739Z",
+      "weight_kg": 24.41
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-14T17:28:36.722807Z",
-      "weight_kg": 12.4
+      "timestamp": "2026-07-08T05:59:32.451739Z",
+      "weight_kg": 24.41
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-14T23:28:36.722807Z",
-      "weight_kg": 12.32
+      "timestamp": "2026-07-08T07:59:32.451739Z",
+      "weight_kg": 24.13
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-15T05:28:36.722807Z",
-      "weight_kg": 12.25
+      "timestamp": "2026-07-08T09:59:32.451739Z",
+      "weight_kg": 23.89
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-15T11:28:36.722807Z",
-      "weight_kg": 12.17
+      "timestamp": "2026-07-08T11:59:32.451739Z",
+      "weight_kg": 23.58
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-15T17:28:36.722807Z",
-      "weight_kg": 13.54
+      "timestamp": "2026-07-08T13:59:32.451739Z",
+      "weight_kg": 23.26
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-15T23:28:36.722807Z",
-      "weight_kg": 12.02
+      "timestamp": "2026-07-08T15:59:32.451739Z",
+      "weight_kg": 22.99
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-16T05:28:36.722807Z",
-      "weight_kg": 11.95
+      "timestamp": "2026-07-08T17:59:32.451739Z",
+      "weight_kg": 22.67
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-16T11:28:36.722807Z",
-      "weight_kg": 11.88
+      "timestamp": "2026-07-08T19:59:32.451739Z",
+      "weight_kg": 22.42
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-16T17:28:36.722807Z",
-      "weight_kg": 11.8
+      "timestamp": "2026-07-08T21:59:32.451739Z",
+      "weight_kg": 22.09
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-16T23:28:36.722807Z",
-      "weight_kg": 11.72
+      "timestamp": "2026-07-08T23:59:32.451739Z",
+      "weight_kg": 22.09
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-17T05:28:36.722807Z",
-      "weight_kg": 11.65
+      "timestamp": "2026-07-09T01:59:32.451739Z",
+      "weight_kg": 22.09
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-17T11:28:36.722807Z",
-      "weight_kg": 11.57
+      "timestamp": "2026-07-09T03:59:32.451739Z",
+      "weight_kg": 22.09
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-17T17:28:36.722807Z",
-      "weight_kg": 11.5
+      "timestamp": "2026-07-09T05:59:32.451739Z",
+      "weight_kg": 22.09
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-17T23:28:36.722807Z",
-      "weight_kg": 11.42
+      "timestamp": "2026-07-09T07:59:32.451739Z",
+      "weight_kg": 21.78
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-18T05:28:36.722807Z",
-      "weight_kg": 11.35
+      "timestamp": "2026-07-09T09:59:32.451739Z",
+      "weight_kg": 21.47
     },
     {
       "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
-      "timestamp": "2026-07-18T11:28:36.722807Z",
-      "weight_kg": 11.27
+      "timestamp": "2026-07-09T11:59:32.451739Z",
+      "weight_kg": 21.15
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T13:59:32.451739Z",
+      "weight_kg": 20.9
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T15:59:32.451739Z",
+      "weight_kg": 20.59
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T17:59:32.451739Z",
+      "weight_kg": 20.28
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T19:59:32.451739Z",
+      "weight_kg": 20.01
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T21:59:32.451739Z",
+      "weight_kg": 19.75
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-09T23:59:32.451739Z",
+      "weight_kg": 19.75
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T01:59:32.451739Z",
+      "weight_kg": 19.75
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T03:59:32.451739Z",
+      "weight_kg": 19.75
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T05:59:32.451739Z",
+      "weight_kg": 19.75
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T07:59:32.451739Z",
+      "weight_kg": 19.46
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T09:59:32.451739Z",
+      "weight_kg": 19.15
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T11:59:32.451739Z",
+      "weight_kg": 18.83
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T13:59:32.451739Z",
+      "weight_kg": 18.52
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T15:59:32.451739Z",
+      "weight_kg": 18.21
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T17:59:32.451739Z",
+      "weight_kg": 17.86
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T19:59:32.451739Z",
+      "weight_kg": 17.62
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T21:59:32.451739Z",
+      "weight_kg": 17.34
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-10T23:59:32.451739Z",
+      "weight_kg": 17.34
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T01:59:32.451739Z",
+      "weight_kg": 17.34
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T03:59:32.451739Z",
+      "weight_kg": 17.34
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T05:59:32.451739Z",
+      "weight_kg": 17.34
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T07:59:32.451739Z",
+      "weight_kg": 17.05
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T09:59:32.451739Z",
+      "weight_kg": 16.8
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T11:59:32.451739Z",
+      "weight_kg": 16.52
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T13:59:32.451739Z",
+      "weight_kg": 16.22
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T15:59:32.451739Z",
+      "weight_kg": 15.93
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T17:59:32.451739Z",
+      "weight_kg": 15.58
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T19:59:32.451739Z",
+      "weight_kg": 29.5
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T21:59:32.451739Z",
+      "weight_kg": 29.23
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-11T23:59:32.451739Z",
+      "weight_kg": 29.23
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T01:59:32.451739Z",
+      "weight_kg": 29.23
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T03:59:32.451739Z",
+      "weight_kg": 29.23
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T05:59:32.451739Z",
+      "weight_kg": 29.23
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T07:59:32.451739Z",
+      "weight_kg": 28.89
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T09:59:32.451739Z",
+      "weight_kg": 28.58
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T11:59:32.451739Z",
+      "weight_kg": 28.28
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T13:59:32.451739Z",
+      "weight_kg": 27.99
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T15:59:32.451739Z",
+      "weight_kg": 27.69
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T17:59:32.451739Z",
+      "weight_kg": 27.43
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T19:59:32.451739Z",
+      "weight_kg": 27.14
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T21:59:32.451739Z",
+      "weight_kg": 26.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-12T23:59:32.451739Z",
+      "weight_kg": 26.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T01:59:32.451739Z",
+      "weight_kg": 26.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T03:59:32.451739Z",
+      "weight_kg": 26.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T05:59:32.451739Z",
+      "weight_kg": 26.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T07:59:32.451739Z",
+      "weight_kg": 26.5
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T09:59:32.451739Z",
+      "weight_kg": 26.18
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T11:59:32.451739Z",
+      "weight_kg": 25.87
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T13:59:32.451739Z",
+      "weight_kg": 25.63
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T15:59:32.451739Z",
+      "weight_kg": 25.38
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T17:59:32.451739Z",
+      "weight_kg": 25.11
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T19:59:32.451739Z",
+      "weight_kg": 24.85
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T21:59:32.451739Z",
+      "weight_kg": 24.56
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-13T23:59:32.451739Z",
+      "weight_kg": 24.56
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T01:59:32.451739Z",
+      "weight_kg": 24.56
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T03:59:32.451739Z",
+      "weight_kg": 24.56
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T05:59:32.451739Z",
+      "weight_kg": 24.56
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T07:59:32.451739Z",
+      "weight_kg": 24.27
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T09:59:32.451739Z",
+      "weight_kg": 24.04
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T11:59:32.451739Z",
+      "weight_kg": 23.7
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T13:59:32.451739Z",
+      "weight_kg": 23.38
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T15:59:32.451739Z",
+      "weight_kg": 23.08
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T17:59:32.451739Z",
+      "weight_kg": 22.73
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T19:59:32.451739Z",
+      "weight_kg": 22.49
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T21:59:32.451739Z",
+      "weight_kg": 22.26
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-14T23:59:32.451739Z",
+      "weight_kg": 22.26
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T01:59:32.451739Z",
+      "weight_kg": 22.26
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T03:59:32.451739Z",
+      "weight_kg": 22.26
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T05:59:32.451739Z",
+      "weight_kg": 22.26
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T07:59:32.451739Z",
+      "weight_kg": 22.0
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T09:59:32.451739Z",
+      "weight_kg": 21.65
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T11:59:32.451739Z",
+      "weight_kg": 21.37
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T13:59:32.451739Z",
+      "weight_kg": 15.3
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T15:59:32.451739Z",
+      "weight_kg": 29.5
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T17:59:32.451739Z",
+      "weight_kg": 29.17
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T19:59:32.451739Z",
+      "weight_kg": 28.91
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T21:59:32.451739Z",
+      "weight_kg": 28.59
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-15T23:59:32.451739Z",
+      "weight_kg": 28.59
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T01:59:32.451739Z",
+      "weight_kg": 28.59
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T03:59:32.451739Z",
+      "weight_kg": 28.59
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T05:59:32.451739Z",
+      "weight_kg": 28.59
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T07:59:32.451739Z",
+      "weight_kg": 28.25
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T09:59:32.451739Z",
+      "weight_kg": 28.01
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T11:59:32.451739Z",
+      "weight_kg": 27.66
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T13:59:32.451739Z",
+      "weight_kg": 27.38
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T15:59:32.451739Z",
+      "weight_kg": 27.09
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T17:59:32.451739Z",
+      "weight_kg": 26.76
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T19:59:32.451739Z",
+      "weight_kg": 26.51
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T21:59:32.451739Z",
+      "weight_kg": 26.19
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-16T23:59:32.451739Z",
+      "weight_kg": 26.19
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T01:59:32.451739Z",
+      "weight_kg": 26.19
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T03:59:32.451739Z",
+      "weight_kg": 26.19
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T05:59:32.451739Z",
+      "weight_kg": 26.19
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T07:59:32.451739Z",
+      "weight_kg": 25.84
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T09:59:32.451739Z",
+      "weight_kg": 25.58
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T11:59:32.451739Z",
+      "weight_kg": 25.26
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T13:59:32.451739Z",
+      "weight_kg": 24.98
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T15:59:32.451739Z",
+      "weight_kg": 24.69
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T17:59:32.451739Z",
+      "weight_kg": 24.42
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T19:59:32.451739Z",
+      "weight_kg": 24.11
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T21:59:32.451739Z",
+      "weight_kg": 23.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-17T23:59:32.451739Z",
+      "weight_kg": 23.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T01:59:32.451739Z",
+      "weight_kg": 23.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T03:59:32.451739Z",
+      "weight_kg": 23.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T05:59:32.451739Z",
+      "weight_kg": 23.82
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T07:59:32.451739Z",
+      "weight_kg": 23.58
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T09:59:32.451739Z",
+      "weight_kg": 23.26
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T11:59:32.451739Z",
+      "weight_kg": 22.92
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T13:59:32.451739Z",
+      "weight_kg": 22.58
+    },
+    {
+      "cylinder_id": "60c72b2f9b1d8b001c8e4d3a",
+      "timestamp": "2026-07-18T15:59:32.451739Z",
+      "weight_kg": 22.27
     }
   ]
 }
