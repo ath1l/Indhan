@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Activity, LogOut, ChevronRight, Download, Plus } from 'lucide-react';
-import DaysRemainingCard from '../components/DaysRemainingCard';
-import WeightTrendChart from '../components/WeightTrendChart';
-import AnomalyAlert from '../components/AnomalyAlert';
+import { Activity, LogOut, Plus, LayoutGrid, Zap } from 'lucide-react';
 import MockCylinderCard from '../components/MockCylinderCard';
 import AddCylinderModal from '../components/AddCylinderModal';
-import GasLevelIndicator from '../components/GasLevelIndicator';
 import IndhanLogo from '../components/IndhanLogo';
 
 const Dashboard = () => {
@@ -23,23 +19,21 @@ const Dashboard = () => {
       try {
         const res = await axios.get('/api/v1/dashboard/summary');
         setData(res.data);
-        
       } catch (err) {
         setError("Failed to fetch dashboard data.");
       } finally {
         setLoading(false);
       }
     };
-
     fetchDashboard();
   }, [refreshTrigger]);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen app-shell flex items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-400 tracking-wider text-sm uppercase">Loading telemetry...</p>
+          <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-slate-500 font-medium tracking-wider text-sm uppercase">Loading telemetry...</p>
         </div>
       </div>
     );
@@ -47,42 +41,15 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="p-6 bg-red-950/20 border border-red-900/50 rounded-xl max-w-md text-center">
-          <Activity className="w-12 h-12 text-red-500 mx-auto mb-4 opacity-50" />
-          <h2 className="text-red-400 font-medium">Connection Error</h2>
-          <p className="text-gray-400 text-sm mt-2">{error}</p>
+      <div className="min-h-screen app-shell flex items-center justify-center">
+        <div className="p-8 bg-white border border-red-100 rounded-3xl shadow-sm max-w-md text-center">
+          <Activity className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <h2 className="text-slate-900 font-semibold text-lg">Connection Error</h2>
+          <p className="text-slate-500 text-sm mt-2">{error}</p>
         </div>
       </div>
     );
   }
-
-  const handleExportCSV = () => {
-    if (!data?.cylinders) return;
-
-    const headers = ['Cylinder ID', 'Name', 'Current Weight (kg)', 'Burn Rate (kg/day)', 'Est. Empty Date'];
-    const rows = data.cylinders.map(c => [
-      c.id,
-      c.name,
-      c.latest_reading?.weight_kg?.toFixed(2) || 'N/A',
-      c.prediction?.burn_rate_kg_per_day || '0.00',
-      c.prediction?.est_empty_at ? new Date(c.prediction.est_empty_at).toLocaleDateString() : 'N/A'
-    ]);
-
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(r => r.join(','))
-    ].join('\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'INDHAN_OpEx_Report.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   const handleDeleteCylinder = async (id) => {
     if (window.confirm("Are you sure you want to delete this cylinder? All telemetry data will be permanently lost.")) {
@@ -96,56 +63,52 @@ const Dashboard = () => {
     }
   };
 
-  const cylinder = data?.cylinders?.[0];
+  const cylinders = data?.cylinders || [];
+  const activeCount = cylinders.filter(c => c.latest_reading).length;
+  
+  // Calculate aggregate metrics
+  let totalRunway = 0;
+  let totalBurnRate = 0;
+  let validRunwayCount = 0;
+
+  cylinders.forEach(c => {
+    if (c.prediction?.burn_rate_kg_per_day) {
+      totalBurnRate += c.prediction.burn_rate_kg_per_day;
+    }
+    if (c.prediction?.days_remaining != null) {
+      totalRunway += c.prediction.days_remaining;
+      validRunwayCount++;
+    }
+  });
+
+  const avgRunway = validRunwayCount > 0 ? (totalRunway / validRunwayCount).toFixed(1) : '--';
 
   return (
-    <div className="min-h-screen text-gray-100 p-6 md:p-12 font-sans selection:bg-teal-500/30">
+    <div className="app-shell">
       
-      {/* Header */}
-      <header className="max-w-7xl mx-auto mb-10 flex items-center justify-between border-b border-white/10 pb-6">
-        <div>
-          <h1 className="text-3xl font-display font-semibold tracking-widest text-white flex items-center gap-4">
-            <span className="p-2.5 glass-panel flex items-center justify-center">
-              <IndhanLogo variant="icon" className="w-6 h-6 drop-shadow-[0_0_10px_rgba(45,212,191,0.5)]" />
+      {/* Top Navigation */}
+      <header className="max-w-[1200px] mx-auto mb-10 flex items-center justify-between">
+        <div className="flex items-center gap-12">
+          <h1 className="text-2xl font-display font-bold tracking-widest text-slate-900 flex items-center gap-3">
+            <span className="p-2 bg-white border border-slate-200 rounded-xl shadow-sm relative overflow-hidden group">
+              <div className="absolute inset-0 bg-red-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <IndhanLogo variant="icon" className="w-5 h-5 text-red-600 relative z-10" />
             </span>
             INDHAN
           </h1>
-          <p className="text-gray-400 text-sm mt-3 flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-            </span>
-            Live Telemetry Active
-          </p>
         </div>
-        <div className="hidden md:flex items-center space-x-5">
-          <div className="text-right">
-            <p className="text-sm font-medium text-gray-300">{cylinder?.name || 'Unknown'}</p>
-            <p className="text-xs text-gray-500 uppercase tracking-widest mt-0.5">{cylinder?.id}</p>
-          </div>
-          <div className="h-11 w-11 rounded-2xl glass-panel flex items-center justify-center text-gray-300 font-display text-lg">
-            {cylinder?.name?.charAt(0) || 'C'}
-          </div>
-          <div className="h-8 w-[1px] bg-white/10 mx-2"></div>
+
+        <div className="flex items-center gap-4">
           <button 
             onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all shadow-lg hover:shadow-white/5"
-            title="Add New Cylinder"
+            className="btn-primary"
           >
             <Plus className="w-4 h-4" />
-            Add
-          </button>
-          <button 
-            onClick={handleExportCSV}
-            className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-teal-500/20 hover:bg-teal-500/30 border border-teal-500/30 text-teal-100 rounded-2xl transition-all shadow-[0_0_15px_rgba(20,184,166,0.1)]"
-            title="Export Monthly OpEx Summary (.CSV)"
-          >
-            <Download className="w-4 h-4" />
-            Export
+            Add Cylinder
           </button>
           <button 
             onClick={() => navigate('/login')}
-            className="p-2.5 text-gray-400 hover:text-white glass-panel glass-panel-hover"
+            className="w-12 h-12 rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center text-slate-400 hover:text-slate-900 hover:border-slate-300 transition-all active:scale-[0.95]"
             title="Sign Out"
           >
             <LogOut className="w-5 h-5" />
@@ -153,74 +116,55 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto space-y-6">
+      {/* Main Content Layout */}
+      <main className="max-w-[1200px] mx-auto flex flex-col gap-10">
         
-        {/* Alerts */}
-        <AnomalyAlert 
-          anomalies={cylinder?.active_alerts} 
-          cylinderId={cylinder?.id} 
-          onDismiss={(id) => {
-            // Update local state to hide alert
-            if (data && data.cylinders) {
-              const updated = {...data};
-              updated.cylinders[0].active_alerts = updated.cylinders[0].active_alerts.filter(a => a.id !== id);
-              setData(updated);
-            }
-          }}
-        />
-
-        {/* Multi-Cylinder Kitchen Matrix - Bento Box */}
-        <div className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6">
-          
-          {/* Cylinder 01 - Main Wok Line (Real Data) */}
-          <div className="md:col-span-8 lg:col-span-8 flex flex-col gap-6">
-            <div 
-              onClick={() => cylinder?.id && navigate(`/cylinders/${cylinder.id}`)}
-              className="glass-panel glass-panel-hover p-8 flex flex-col justify-between cursor-pointer group h-[300px] relative overflow-hidden"
-            >
-              {/* Decorative background glow inside the card */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
-
-              <div className="flex justify-between items-start mb-4 relative z-10">
-                <h2 className="text-teal-300 text-xs font-semibold uppercase tracking-widest flex items-center gap-3">
-                  <span className="w-2 h-2 rounded-full bg-teal-400 drop-shadow-[0_0_8px_rgba(45,212,191,0.8)]"></span>
-                  Main Wok Line
-                </h2>
-                <div className="p-2 rounded-xl bg-white/5 group-hover:bg-white/10 transition-colors border border-white/5">
-                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                </div>
-              </div>
-              <div className="flex flex-col justify-end mt-auto relative z-10">
-                <GasLevelIndicator 
-                  currentWeight={cylinder?.latest_reading?.weight_kg ?? ((cylinder?.capacity_kg || 14.2) + (cylinder?.tare_weight_kg || 15.3))} 
-                  capacity={cylinder?.capacity_kg || 14.2} 
-                  tare={cylinder?.tare_weight_kg || 15.3}
-                  size="large"
-                />
-                
-                <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
-                  <div className="flex items-center text-sm font-medium text-gray-400">
-                    <Activity className="w-4 h-4 mr-2 text-teal-400" />
-                    Live Burn Rate
-                  </div>
-                  <span className="text-gray-300 bg-white/5 border border-white/10 px-3 py-1 rounded-lg text-sm font-mono tracking-tight">{cylinder?.prediction?.burn_rate_kg_per_day || '0.00'} kg/day</span>
-                </div>
-              </div>
+        {/* Metric Row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="glass-panel p-6 flex flex-col justify-between group">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 group-hover:text-red-600 transition-colors">Active Cylinders</span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-display font-bold text-slate-900 tracking-tight">{activeCount}</span>
+              <span className="text-base font-bold text-slate-400">/ {cylinders.length}</span>
             </div>
+          </div>
+          
+          <div className="glass-panel p-6 flex flex-col justify-between group">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 group-hover:text-red-600 transition-colors">Total Burn Rate</span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-display font-bold text-slate-900 tracking-tight">{totalBurnRate.toFixed(2)}</span>
+              <span className="text-base font-bold text-slate-400">kg/d</span>
+            </div>
+          </div>
+
+          {/* Dark Feature Anchor */}
+          <div className="dark-panel p-6 flex flex-col justify-between relative overflow-hidden group">
+            <div className="absolute -right-4 -bottom-4 p-4 opacity-5 text-red-400 group-hover:scale-110 group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-700">
+              <Zap className="w-32 h-32" />
+            </div>
+            <div className="absolute inset-0 bg-red-500/5 mix-blend-overlay"></div>
             
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 relative z-10 group-hover:text-red-400 transition-colors">Average Reserve</span>
+            <div className="flex items-baseline gap-2 relative z-10">
+              <span className="text-5xl font-display font-bold text-white tracking-tight">{avgRunway}</span>
+              <span className="text-base font-bold text-red-500/80">days</span>
+            </div>
           </div>
+        </div>
 
-          <div className="md:col-span-4 lg:col-span-4">
-            <DaysRemainingCard prediction={cylinder?.prediction} />
+        {/* Cylinder Grid */}
+        <section>
+          <div className="flex justify-between items-center mb-8 px-1 border-b border-slate-200/50 pb-4">
+            <h2 className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+              <LayoutGrid className="w-4 h-4" />
+              Asset Registry
+            </h2>
           </div>
-
-          {/* Dynamically Rendered Cylinders */}
-          {data?.cylinders?.slice(1).map((cyl) => {
-            return (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cylinders.map((cyl) => (
               <div 
                 key={cyl.id} 
-                className="md:col-span-4 lg:col-span-3 cursor-pointer transition-transform hover:scale-[1.02]"
+                className="cursor-pointer"
                 onClick={() => navigate(`/cylinders/${cyl.id}`)}
               >
                 <MockCylinderCard 
@@ -231,14 +175,20 @@ const Dashboard = () => {
                   }}
                 />
               </div>
-            );
-          })}
-          
-        </div>
+            ))}
+            {cylinders.length === 0 && (
+              <div className="col-span-full flex flex-col items-center justify-center p-16 bg-white border border-slate-200 border-dashed rounded-[24px]">
+                <p className="text-slate-500 font-bold mb-6 text-sm uppercase tracking-widest">No LPG assets connected</p>
+                <button onClick={() => setIsAddModalOpen(true)} className="btn-primary shadow-xl shadow-red-600/20">
+                  <Plus className="w-4 h-4" /> Add Your First Cylinder
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
         
       </main>
 
-      {/* Modal */}
       <AddCylinderModal 
         isOpen={isAddModalOpen} 
         onClose={() => setIsAddModalOpen(false)} 

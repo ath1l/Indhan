@@ -28,87 +28,87 @@ const AddCylinderModal = ({ isOpen, onClose, onSuccess }) => {
       onSuccess();
     } catch (err) {
       console.error(err);
-      setError('Failed to create cylinder.');
+      setError('Failed to connect asset.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-950/80 backdrop-blur-sm">
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+      <div className="bg-white border border-slate-200 rounded-[24px] w-full max-w-md shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-800">
-          <h2 className="text-xl font-light text-white flex items-center gap-2">
-            <Database className="w-5 h-5 text-blue-500" />
-            Add New Cylinder
+        <div className="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50/50">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <Database className="w-5 h-5 text-emerald-600" />
+            Connect LPG Asset
           </h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-white transition-colors">
-            <X className="w-5 h-5" />
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-700 bg-white border border-slate-200 p-1.5 rounded-lg shadow-sm transition-colors">
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {error && (
-            <div className="p-3 bg-red-950/30 border border-red-900/50 text-red-400 text-sm rounded-lg">
+            <div className="p-4 bg-red-50 border border-red-100 text-red-600 text-sm font-medium rounded-xl">
               {error}
             </div>
           )}
           
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Cylinder Name</label>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Asset Name / Zone</label>
             <input 
               type="text" 
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g., Tandoor Line"
-              className="w-full bg-gray-950 border border-gray-800 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors placeholder-gray-600"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder-slate-400 shadow-sm"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">Capacity (kg)</label>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Capacity (kg)</label>
               <input 
                 type="number" 
                 step="0.1"
                 required
                 value={capacity}
                 onChange={(e) => setCapacity(e.target.value)}
-                className="w-full bg-gray-950 border border-gray-800 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all shadow-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">Tare Weight (kg)</label>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Tare (kg)</label>
               <input 
                 type="number" 
                 step="0.1"
                 required
                 value={tare}
                 onChange={(e) => setTare(e.target.value)}
-                className="w-full bg-gray-950 border border-gray-800 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all shadow-sm"
               />
             </div>
           </div>
 
-          <div className="pt-4 flex items-center justify-end space-x-3">
+          <div className="pt-6 flex items-center justify-end space-x-3 border-t border-slate-100">
             <button 
               type="button" 
               onClick={onClose}
               disabled={loading}
-              className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors"
+              className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors"
             >
               Cancel
             </button>
             <button 
               type="submit" 
               disabled={loading}
-              className="flex items-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-blue-900/20 disabled:opacity-50"
+              className="btn-primary"
             >
-              {loading ? 'Creating...' : <><Plus className="w-4 h-4" /> Create Cylinder</>}
+              {loading ? 'Connecting...' : <><Plus className="w-4 h-4" /> Connect Asset</>}
             </button>
           </div>
         </form>

@@ -7,7 +7,7 @@ const GasLevelIndicator = ({ currentWeight = 29.5, capacity = 14.2, tare = 15.3,
   const rawPercent = (gasWeight / capacity) * 100;
   const percentage = Math.min(100, Math.max(0, Math.round(rawPercent)));
   
-  let colorClass = "text-emerald-500";
+  let colorClass = "text-emerald-600";
   let strokeColor = "stroke-emerald-500";
   let statusText = "Stable";
   let StatusIcon = CheckCircle2;
@@ -35,7 +35,7 @@ const GasLevelIndicator = ({ currentWeight = 29.5, capacity = 14.2, tare = 15.3,
 
   return (
     <div className={`flex items-center ${isLarge ? 'space-x-8' : 'space-x-4'}`}>
-      <div className="relative flex items-center justify-center">
+      <div className="relative flex items-center justify-center drop-shadow-sm">
         <svg 
           width={svgSize} 
           height={svgSize} 
@@ -50,7 +50,7 @@ const GasLevelIndicator = ({ currentWeight = 29.5, capacity = 14.2, tare = 15.3,
             fill="transparent" 
             stroke="currentColor" 
             strokeWidth={strokeWidth} 
-            className="text-gray-800" 
+            className="text-slate-100" 
           />
           {/* Progress Ring */}
           <circle 
@@ -67,20 +67,20 @@ const GasLevelIndicator = ({ currentWeight = 29.5, capacity = 14.2, tare = 15.3,
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center flex-col">
-          <span className={`${textSize} font-light tracking-tighter text-white`}>
-            {percentage}<span className={isLarge ? "text-xl text-gray-400 ml-1" : "text-sm text-gray-400 ml-1"}>%</span>
+          <span className={`${textSize} font-bold tracking-tight text-slate-900`}>
+            {percentage}<span className={isLarge ? "text-xl text-slate-400 ml-1 font-semibold" : "text-sm text-slate-400 ml-1 font-semibold"}>%</span>
           </span>
         </div>
       </div>
       
       <div className="flex flex-col justify-center">
-        <span className="text-xs text-gray-500 uppercase tracking-wider mb-1 font-medium">Status</span>
-        <div className={`flex items-center font-medium ${colorClass} ${isLarge ? 'text-2xl' : 'text-lg'} mb-1`}>
-          <StatusIcon className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} mr-2`} />
+        <span className="text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-bold">Status</span>
+        <div className={`flex items-center font-bold tracking-wide ${colorClass} ${isLarge ? 'text-xl' : 'text-lg'} mb-1`}>
+          <StatusIcon className={`${isLarge ? 'w-5 h-5' : 'w-4 h-4'} mr-2`} />
           {statusText}
         </div>
-        <span className="text-sm text-gray-500 mt-1">
-          Gas Weight: <span className="text-gray-300 font-mono">{gasWeight.toFixed(2)} kg</span>
+        <span className="text-xs text-slate-500 font-medium mt-1 bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
+          Gas: <span className="text-slate-700 font-mono font-semibold ml-1">{gasWeight.toFixed(2)} kg</span>
         </span>
       </div>
     </div>

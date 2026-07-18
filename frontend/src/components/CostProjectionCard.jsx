@@ -15,34 +15,34 @@ const CostProjectionCard = ({ prediction }) => {
 
   return (
     <div className="p-8 glass-panel glass-panel-hover flex flex-col justify-between h-full relative overflow-hidden group">
-      <div className="absolute -bottom-16 -right-16 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all pointer-events-none"></div>
+      <div className="absolute -bottom-16 -right-16 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/10 transition-all pointer-events-none"></div>
       
       <div className="relative z-10">
-        <div className="flex items-center justify-between text-gray-400 mb-6">
+        <div className="flex items-center justify-between text-slate-500 mb-6">
           <div className="flex items-center">
-            <DollarSign className="w-5 h-5 mr-2 text-emerald-500" />
-            <span className="uppercase tracking-wider text-xs font-medium">Projected Budget (7-Day Avg)</span>
+            <DollarSign className="w-4 h-4 mr-2 text-indigo-500" />
+            <span className="uppercase tracking-widest text-[10px] font-bold">Projected Budget (7-Day Avg)</span>
           </div>
           {variance > 0 && (
-            <span className="flex items-center text-xs font-medium text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2 py-1 rounded-md shadow-inner">
+            <span className="flex items-center text-xs font-bold text-orange-600 bg-orange-50 border border-orange-100 px-2 py-1 rounded-md">
               <TrendingUp className="w-3 h-3 mr-1" />
-              +₹{variance.toFixed(0)} Variance
+              +₹{variance.toFixed(0)} Var
             </span>
           )}
         </div>
         <div className="flex items-baseline space-x-2">
-          <span className="text-2xl text-gray-400 font-sans font-medium">₹</span>
-          <p className="text-5xl font-display font-light text-white">
+          <span className="text-2xl text-slate-400 font-sans font-medium">₹</span>
+          <p className="text-5xl font-display font-bold text-slate-900 tracking-tight">
             {projectedMonthlyCost.toFixed(2)}
           </p>
         </div>
-        <p className="text-xs text-gray-500 mt-2 font-medium">per month (simulated)</p>
+        <p className="text-xs text-slate-500 mt-3 font-semibold bg-slate-50 inline-block px-3 py-1 rounded-lg">per month (simulated)</p>
       </div>
       
-      <div className="mt-auto pt-6 border-t border-white/10 relative z-10">
-        <div className="flex justify-between text-xs text-gray-400 font-medium uppercase tracking-wider mb-3">
+      <div className="mt-auto pt-6 border-t border-slate-100 relative z-10">
+        <div className="flex justify-between text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-3">
           <span>Market Price</span>
-          <span className="text-indigo-300 font-mono tracking-tight bg-white/5 px-2 py-0.5 rounded">₹{simulatedPrice}/kg</span>
+          <span className="text-indigo-600 font-mono tracking-tight bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">₹{simulatedPrice}/kg</span>
         </div>
         <input 
           type="range" 
@@ -51,7 +51,7 @@ const CostProjectionCard = ({ prediction }) => {
           step="1"
           value={simulatedPrice}
           onChange={(e) => setSimulatedPrice(Number(e.target.value))}
-          className="w-full accent-indigo-400 opacity-80 hover:opacity-100 transition-opacity"
+          className="w-full accent-indigo-500 opacity-80 hover:opacity-100 transition-opacity"
         />
       </div>
     </div>

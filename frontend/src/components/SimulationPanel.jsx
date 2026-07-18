@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Activity, AlertTriangle, RefreshCw, Flame, Clock, Droplet } from 'lucide-react';
+import { Activity, AlertTriangle, RefreshCw, Flame, Clock, Droplet, FlaskConical } from 'lucide-react';
 
 const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15.3, onReadingAdded }) => {
   const fullWeight = capacity + tare;
@@ -63,92 +63,106 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
   };
   
 
-
   return (
-    <div className="mt-8 p-6 rounded-2xl bg-gray-900/50 border border-gray-800">
-      <div className="flex items-center text-gray-400 mb-6">
-        <Activity className="w-5 h-5 mr-2 text-blue-500" />
-        <span className="uppercase tracking-wider text-xs font-medium">Live ML Simulation Panel</span>
-      </div>
+    <div className="mt-8 p-8 rounded-[24px] bg-slate-100 border border-slate-200/60 shadow-inner relative overflow-hidden group">
+      {/* Background laboratory pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none"></div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="absolute top-0 right-0 p-3 bg-red-500 text-white font-bold text-[9px] uppercase tracking-[0.2em] rounded-bl-xl shadow-sm z-10 flex items-center gap-1.5">
+        <FlaskConical className="w-3 h-3" /> Simulation Mode
+      </div>
+      
+      <div className="relative z-10 flex items-center text-slate-900 mb-2">
+        <Activity className="w-5 h-5 mr-3 text-red-600" />
+        <h3 className="uppercase tracking-widest text-sm font-bold">LPG Telemetry Simulator</h3>
+      </div>
+      <p className="relative z-10 text-slate-500 text-sm mb-8 font-medium max-w-2xl">
+        Inject synthetic data payloads to model consumption scenarios and validate machine-learning runway predictions.
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
         {/* Manual Control */}
-        <div className="space-y-4">
-          <label className="text-sm text-gray-400">
-            Manual Weight Injection: <span className="text-white font-mono">{sliderValue} kg</span>
+        <div className="space-y-4 p-6 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm">
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block flex justify-between items-center">
+            Manual Weight Injection
+            <span className="text-red-700 bg-red-50 px-2 py-1 rounded font-mono text-sm border border-red-100">{sliderValue} kg</span>
           </label>
-          <input 
-            type="range" 
-            min={tare} 
-            max={fullWeight} 
-            step="0.1" 
-            value={sliderValue}
-            onChange={(e) => setSliderValue(e.target.value)}
-            disabled={loading}
-            className="w-full accent-blue-600"
-          />
+          <div className="pt-2 pb-4">
+            <input 
+              type="range" 
+              min={tare} 
+              max={fullWeight} 
+              step="0.1" 
+              value={sliderValue}
+              onChange={(e) => setSliderValue(e.target.value)}
+              disabled={loading}
+              className="w-full accent-red-600 cursor-pointer"
+            />
+          </div>
           <button 
             onClick={handleManualSubmit}
             disabled={loading}
-            className="w-full bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 border border-blue-600/50 rounded-lg py-2 transition-colors disabled:opacity-50 font-medium"
+            className="w-full bg-white hover:bg-red-50 active:scale-[0.98] text-red-700 border border-red-200/60 rounded-xl py-3 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-sm"
           >
-            {loading ? 'Processing ML Pipeline...' : 'Submit Custom Reading'}
+            {loading ? 'Processing Payload...' : 'Inject Weight Reading'}
           </button>
         </div>
 
         {/* Custom Usage Scenario */}
-        <div className="space-y-4">
-          <label className="text-sm text-gray-400 block -mb-1">
-            Custom Usage Scenario
+        <div className="space-y-4 p-6 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm">
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-4">
+            Synthetic Consumption Scenario
           </label>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4 mb-5">
             <div>
-              <span className="text-xs text-gray-500 mb-1 block">Gas (kg)</span>
+              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1.5 block">Gas Payload (kg)</span>
               <div className="relative">
-                <Droplet className="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Droplet className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input 
                   type="number" 
                   step="0.1"
                   min="0.1"
                   value={gasConsumed}
                   onChange={(e) => setGasConsumed(e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg py-2 pl-9 pr-3 text-sm text-white focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 font-mono text-sm text-slate-700 font-bold focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors shadow-sm"
                 />
               </div>
             </div>
             <div>
-              <span className="text-xs text-gray-500 mb-1 block">Time (mins)</span>
+              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1.5 block">Duration (mins)</span>
               <div className="relative">
-                <Clock className="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Clock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input 
                   type="number" 
                   step="1"
                   min="1"
                   value={durationMinutes}
                   onChange={(e) => setDurationMinutes(e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg py-2 pl-9 pr-3 text-sm text-white focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 font-mono text-sm text-slate-700 font-bold focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors shadow-sm"
                 />
               </div>
             </div>
           </div>
           
-          <button 
-            onClick={handleCustomUsage}
-            disabled={loading}
-            className="w-full flex items-center justify-center bg-orange-950/30 hover:bg-orange-900/50 border border-orange-900/50 text-orange-400 rounded-lg py-2 transition-colors disabled:opacity-50 font-medium"
-          >
-            <Activity className="w-4 h-4 mr-2" />
-            Run Simulation
-          </button>
-          
-          <button 
-            onClick={handleSimulateRefill}
-            disabled={loading}
-            className="w-full flex items-center justify-center bg-emerald-950/30 hover:bg-emerald-900/50 border border-emerald-900/50 text-emerald-400 rounded-lg py-2 transition-colors disabled:opacity-50 font-medium"
-          >
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Simulate Refill (Full {fullWeight} kg)
-          </button>
+          <div className="grid grid-cols-2 gap-3">
+            <button 
+              onClick={handleCustomUsage}
+              disabled={loading}
+              className="w-full flex items-center justify-center bg-white hover:bg-orange-50 active:scale-[0.98] border border-orange-200/60 text-orange-600 rounded-xl py-3 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-sm"
+            >
+              <Activity className="w-3.5 h-3.5 mr-2" />
+              Execute Burn
+            </button>
+            
+            <button 
+              onClick={handleSimulateRefill}
+              disabled={loading}
+              className="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white rounded-xl py-3 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-[0_4px_12px_rgba(220,38,38,0.2)]"
+            >
+              <RefreshCw className="w-3.5 h-3.5 mr-2" />
+              Simulate Refill
+            </button>
+          </div>
         </div>
       </div>
 
