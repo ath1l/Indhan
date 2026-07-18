@@ -5,6 +5,7 @@ import { ArrowLeft, Activity, Flame, Clock, Database, CheckCircle2, PauseCircle 
 import WeightTrendChart from '../components/WeightTrendChart';
 import SimulationPanel from '../components/SimulationPanel';
 import CostProjectionCard from '../components/CostProjectionCard';
+import DaysRemainingCard from '../components/DaysRemainingCard';
 import LpgVisualizer from '../components/LpgVisualizer';
 
 const CylinderDetail = () => {
@@ -205,31 +206,7 @@ const CylinderDetail = () => {
 
               <CostProjectionCard prediction={cylinder?.prediction} />
 
-              <div className="glass-panel p-8 flex flex-col relative overflow-hidden group">
-                <div className="absolute -bottom-16 -left-16 w-32 h-32 rounded-full blur-3xl pointer-events-none transition-all duration-700 bg-red-500/5 group-hover:bg-red-500/10"></div>
-                
-                <div className="flex items-center text-slate-500 mb-6 relative z-10">
-                  <div className="p-2.5 rounded-xl border bg-red-50 text-red-600 border-red-100 mr-3 shadow-sm">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Prediction</h2>
-                    <span className="uppercase tracking-widest text-xs font-bold text-slate-900">Estimated Runway</span>
-                  </div>
-                </div>
-                
-                <div className="mt-auto relative z-10">
-                  <p className="text-5xl font-display font-bold text-slate-900 tracking-tight">
-                    {cylinder?.prediction?.days_remaining?.toFixed(1) || '0'} <span className="text-xl text-slate-400 font-sans font-semibold">days</span>
-                  </p>
-                  <div className="flex items-center justify-between mt-4">
-                    <p className="text-[11px] text-slate-500 font-bold bg-slate-50 inline-block px-3 py-1.5 rounded-lg border border-slate-100 shadow-sm uppercase tracking-wider">
-                      Empty: <span className="text-slate-900 ml-1">{cylinder?.prediction?.est_empty_at ? new Date(cylinder?.prediction.est_empty_at).toLocaleDateString() : '...'}</span>
-                    </p>
-                    <span className="text-[10px] font-bold text-red-600 uppercase tracking-widest">{Math.round((cylinder?.prediction?.confidence || 0) * 100)}% Conf</span>
-                  </div>
-                </div>
-              </div>
+              <DaysRemainingCard prediction={cylinder?.prediction} />
 
             </div>
 

@@ -5,6 +5,7 @@ import { Activity, LogOut, Plus, LayoutGrid, Zap } from 'lucide-react';
 import MockCylinderCard from '../components/MockCylinderCard';
 import AddCylinderModal from '../components/AddCylinderModal';
 import IndhanLogo from '../components/IndhanLogo';
+import LpgHeroArt from '../components/LpgHeroArt';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -119,6 +120,9 @@ const Dashboard = () => {
       {/* Main Content Layout */}
       <main className="max-w-[1200px] mx-auto flex flex-col gap-10">
         
+        {/* Hero Artwork Centerpiece */}
+        <LpgHeroArt />
+
         {/* Metric Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="glass-panel p-6 flex flex-col justify-between group">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Activity, AlertTriangle, RefreshCw, Flame, Clock, Droplet, FlaskConical } from 'lucide-react';
+import { Activity, RefreshCw, Droplet, Clock, ChevronRight } from 'lucide-react';
+import GasLevelIndicator from './GasLevelIndicator';
 
 const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15.3, onReadingAdded }) => {
   const fullWeight = capacity + tare;
@@ -26,7 +27,6 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
   const handleManualSubmit = async () => {
     setLoading(true);
     try {
-      // Calculate delta and spread over 10 minutes to prevent instant spikes
       const diff = currentWeight - sliderValue;
       await axios.post(`/api/v1/cylinders/${cylinderId}/readings/simulate`, {
         gas_consumed: diff,
@@ -39,6 +39,7 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
       setLoading(false);
     }
   };
+
   const handleSimulateRefill = () => submitReading(fullWeight);
   
   const handleCustomUsage = async () => {
@@ -48,7 +49,6 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
         gas_consumed: parseFloat(gasConsumed),
         duration_minutes: parseInt(durationMinutes)
       });
-      // Reset to defaults
       setGasConsumed(0.5);
       setDurationMinutes(60);
       
@@ -61,111 +61,147 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
       setLoading(false);
     }
   };
-  
 
   return (
-    <div className="mt-8 p-8 rounded-[24px] bg-slate-100 border border-slate-200/60 shadow-inner relative overflow-hidden group">
-      {/* Background laboratory pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none"></div>
+    <div className="mt-8 p-8 md:p-10 rounded-[32px] bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group">
+      {/* Very faint background laboratory pattern (dots) */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-30 pointer-events-none"></div>
 
-      <div className="absolute top-0 right-0 p-3 bg-red-500 text-white font-bold text-[9px] uppercase tracking-[0.2em] rounded-bl-xl shadow-sm z-10 flex items-center gap-1.5">
-        <FlaskConical className="w-3 h-3" /> Simulation Mode
-      </div>
-      
-      <div className="relative z-10 flex items-center text-slate-900 mb-2">
-        <Activity className="w-5 h-5 mr-3 text-red-600" />
-        <h3 className="uppercase tracking-widest text-sm font-bold">LPG Telemetry Simulator</h3>
-      </div>
-      <p className="relative z-10 text-slate-500 text-sm mb-8 font-medium max-w-2xl">
-        Inject synthetic data payloads to model consumption scenarios and validate machine-learning runway predictions.
-      </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-        {/* Manual Control */}
-        <div className="space-y-4 p-6 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm">
-          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block flex justify-between items-center">
-            Manual Weight Injection
-            <span className="text-red-700 bg-red-50 px-2 py-1 rounded font-mono text-sm border border-red-100">{sliderValue} kg</span>
-          </label>
-          <div className="pt-2 pb-4">
-            <input 
-              type="range" 
-              min={tare} 
-              max={fullWeight} 
-              step="0.1" 
-              value={sliderValue}
-              onChange={(e) => setSliderValue(e.target.value)}
-              disabled={loading}
-              className="w-full accent-red-600 cursor-pointer"
-            />
+      {/* Header */}
+      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <h3 className="uppercase tracking-widest text-sm font-bold text-slate-900">Consumption Simulator</h3>
+            <span className="text-[9px] font-bold uppercase tracking-[0.15em] bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-1 rounded-md shadow-sm">
+              Simulation Mode
+            </span>
           </div>
-          <button 
-            onClick={handleManualSubmit}
-            disabled={loading}
-            className="w-full bg-white hover:bg-red-50 active:scale-[0.98] text-red-700 border border-red-200/60 rounded-xl py-3 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-sm"
-          >
-            {loading ? 'Processing Payload...' : 'Inject Weight Reading'}
-          </button>
+          <p className="text-slate-500 text-[13px] font-medium max-w-lg">
+            Model LPG usage scenarios and observe their effect on cylinder consumption.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+        
+        {/* Visual Connection (Left) */}
+        <div className="lg:col-span-3 flex flex-col items-center justify-center p-6 bg-slate-50/50 rounded-3xl border border-slate-100">
+          <GasLevelIndicator 
+            currentWeight={currentWeight} 
+            capacity={capacity} 
+            tare={tare} 
+            size="large"
+            hasReading={true}
+          />
         </div>
 
-        {/* Custom Usage Scenario */}
-        <div className="space-y-4 p-6 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm">
-          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-4">
-            Synthetic Consumption Scenario
-          </label>
-          <div className="grid grid-cols-2 gap-4 mb-5">
+        {/* Separator / Flow Art */}
+        <div className="hidden lg:flex lg:col-span-1 items-center justify-center text-slate-300">
+          <ChevronRight className="w-8 h-8 opacity-50" />
+        </div>
+
+        {/* Controls (Right) */}
+        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          {/* Manual Weight Input */}
+          <div className="flex flex-col h-full space-y-5">
             <div>
-              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1.5 block">Gas Payload (kg)</span>
-              <div className="relative">
-                <Droplet className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input 
-                  type="number" 
-                  step="0.1"
-                  min="0.1"
-                  value={gasConsumed}
-                  onChange={(e) => setGasConsumed(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 font-mono text-sm text-slate-700 font-bold focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors shadow-sm"
-                />
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">
+                Manual Weight Input
+              </label>
+              <div className="flex items-end gap-2 mb-2">
+                <span className="text-4xl font-display font-bold text-slate-900 tracking-tight">{sliderValue}</span>
+                <span className="text-sm text-slate-400 font-bold mb-1">kg</span>
               </div>
             </div>
-            <div>
-              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1.5 block">Duration (mins)</span>
-              <div className="relative">
-                <Clock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input 
-                  type="number" 
-                  step="1"
-                  min="1"
-                  value={durationMinutes}
-                  onChange={(e) => setDurationMinutes(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 font-mono text-sm text-slate-700 font-bold focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors shadow-sm"
-                />
+            
+            <div className="pt-2 pb-2 mt-auto">
+              <input 
+                type="range" 
+                min={tare} 
+                max={fullWeight} 
+                step="0.1" 
+                value={sliderValue}
+                onChange={(e) => setSliderValue(e.target.value)}
+                disabled={loading}
+                className="w-full accent-emerald-500 cursor-pointer h-1.5 bg-slate-200 rounded-lg appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md"
+              />
+            </div>
+            
+            <button 
+              onClick={handleManualSubmit}
+              disabled={loading}
+              className="w-full bg-white hover:bg-slate-50 active:scale-[0.98] text-slate-600 border border-slate-200 rounded-xl py-3.5 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-sm"
+            >
+              {loading ? 'Processing...' : 'Submit Reading'}
+            </button>
+          </div>
+
+          {/* Vertical Divider for desktop */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-slate-100"></div>
+
+          {/* Usage Scenario */}
+          <div className="flex flex-col h-full space-y-5">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-0 md:mb-4">
+              Usage Scenario
+            </label>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col justify-end">
+                <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1.5 block">LPG Consumption</span>
+                <div className="relative group/input">
+                  <Droplet className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 group-focus-within/input:text-emerald-500 transition-colors" />
+                  <input 
+                    type="number" 
+                    step="0.1"
+                    min="0.1"
+                    value={gasConsumed}
+                    onChange={(e) => setGasConsumed(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-9 pr-8 font-mono text-sm text-slate-700 font-bold focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:bg-white transition-all shadow-sm outline-none"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">kg</span>
+                </div>
               </div>
+              <div className="flex flex-col justify-end">
+                <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1.5 block">Duration</span>
+                <div className="relative group/input">
+                  <Clock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 group-focus-within/input:text-emerald-500 transition-colors" />
+                  <input 
+                    type="number" 
+                    step="1"
+                    min="1"
+                    value={durationMinutes}
+                    onChange={(e) => setDurationMinutes(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-9 pr-9 font-mono text-sm text-slate-700 font-bold focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:bg-white transition-all shadow-sm outline-none"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">min</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto pt-2">
+              <button 
+                onClick={handleSimulateRefill}
+                disabled={loading}
+                className="w-full flex items-center justify-center bg-emerald-50 hover:bg-emerald-100 active:scale-[0.98] text-emerald-700 border border-emerald-200/60 rounded-xl py-3.5 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-sm order-2 sm:order-1"
+              >
+                <RefreshCw className="w-3.5 h-3.5 mr-2" />
+                Simulate Refill
+              </button>
+
+              <button 
+                onClick={handleCustomUsage}
+                disabled={loading}
+                className="w-full flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 active:scale-[0.98] text-white rounded-xl py-3.5 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-[0_4px_14px_rgba(16,185,129,0.25)] order-1 sm:order-2"
+              >
+                <Activity className="w-3.5 h-3.5 mr-2" />
+                Run Simulation
+              </button>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-3">
-            <button 
-              onClick={handleCustomUsage}
-              disabled={loading}
-              className="w-full flex items-center justify-center bg-white hover:bg-orange-50 active:scale-[0.98] border border-orange-200/60 text-orange-600 rounded-xl py-3 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-sm"
-            >
-              <Activity className="w-3.5 h-3.5 mr-2" />
-              Execute Burn
-            </button>
-            
-            <button 
-              onClick={handleSimulateRefill}
-              disabled={loading}
-              className="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white rounded-xl py-3 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-[0_4px_12px_rgba(220,38,38,0.2)]"
-            >
-              <RefreshCw className="w-3.5 h-3.5 mr-2" />
-              Simulate Refill
-            </button>
-          </div>
         </div>
       </div>
-
     </div>
   );
 };
