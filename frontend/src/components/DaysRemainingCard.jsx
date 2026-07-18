@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Clock } from 'lucide-react';
+import { Calendar, Clock, Activity, Zap } from 'lucide-react';
 
 const DaysRemainingCard = ({ prediction }) => {
   if (!prediction) return null;
@@ -9,37 +9,49 @@ const DaysRemainingCard = ({ prediction }) => {
   const dateStr = new Date(est_empty_at).toLocaleDateString('en-US', {
     weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
   });
+  const confPercent = Math.round(confidence * 100);
 
   return (
-    <div className={`p-8 glass-panel glass-panel-hover flex flex-col justify-between h-full relative overflow-hidden group`}>
-      <div className={`absolute -bottom-16 -left-16 w-32 h-32 rounded-full blur-3xl pointer-events-none transition-all duration-700 ${isLow ? 'bg-orange-500/20 group-hover:bg-orange-500/30' : 'bg-teal-500/10 group-hover:bg-teal-500/20'}`}></div>
+    <div className="glass-panel glass-panel-hover p-6 md:p-8 flex flex-col justify-between h-full relative overflow-hidden group">
+      {/* Ambient Glow */}
+      <div className={`absolute -bottom-16 -left-16 w-32 h-32 rounded-full blur-3xl pointer-events-none transition-all duration-700 ${isLow ? 'bg-orange-500/10 group-hover:bg-orange-500/20' : 'bg-teal-500/10 group-hover:bg-teal-500/20'}`}></div>
       
-      <div className="flex items-center space-x-4 mb-4 relative z-10">
-        <div className={`p-3 rounded-2xl border ${isLow ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-teal-500/10 text-teal-400 border-teal-500/20'} shadow-inner`}>
-          <Calendar className={`w-6 h-6 ${isLow ? 'drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]' : 'drop-shadow-[0_0_5px_rgba(20,184,166,0.5)]'}`} />
+      <div className="relative z-10">
+        <h2 className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest flex items-center gap-2 mb-4">
+          <Calendar className={`w-4 h-4 ${isLow ? 'text-orange-400' : 'text-teal-400'}`} />
+          Estimated Runway
+        </h2>
+        
+        <div className="flex items-baseline gap-2 mb-1">
+          <span className="text-5xl font-display font-light text-white tracking-tight">
+            {days_remaining.toFixed(1)}
+          </span>
+          <span className="text-2xl font-medium text-gray-500">days</span>
         </div>
-        <div>
-          <h2 className="text-gray-400 text-xs font-semibold uppercase tracking-widest">Estimated Depletion</h2>
-          <p className="text-4xl font-display font-light tracking-tight text-white mt-1">
-            {days_remaining.toFixed(1)} <span className="text-xl text-gray-500 font-sans font-medium">days</span>
-          </p>
+        
+        <div className="flex items-center text-sm text-gray-400 mt-2">
+          <Clock className="w-3.5 h-3.5 mr-2 opacity-50" />
+          <span>Expected empty on <span className="text-gray-200 font-medium">{dateStr}</span></span>
         </div>
       </div>
       
-      <div className="pt-5 mt-auto border-t border-white/10 flex flex-col space-y-3 relative z-10">
-        <div className="flex items-center text-gray-400 text-sm">
-          <Clock className="w-4 h-4 mr-2 text-gray-500" />
-          <span>Expected empty on <span className="text-gray-200 font-medium">{dateStr}</span></span>
+      {/* Premium Confidence Indicator */}
+      <div className="mt-8 pt-6 border-t border-white/5 relative z-10">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-1.5">
+            <Zap className={`w-3.5 h-3.5 ${confPercent > 90 ? 'text-teal-400' : 'text-teal-600'}`} />
+            <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-widest">AI Confidence</span>
+          </div>
+          <span className="text-sm font-mono text-gray-300">{confPercent}%</span>
         </div>
-        <div className="flex items-center justify-between text-xs text-gray-500 font-medium uppercase tracking-wider mt-2">
-          <span>AI Confidence</span>
-          <span className="text-gray-300 bg-white/5 px-2 py-0.5 rounded text-mono-data">{Math.round(confidence * 100)}%</span>
-        </div>
-        <div className="w-full bg-white/5 border border-white/10 rounded-full h-1.5 mt-1 overflow-hidden">
-          <div 
-            className={`h-1.5 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)] ${isLow ? 'bg-orange-400' : 'bg-teal-400'}`} 
-            style={{ width: `${Math.round(confidence * 100)}%` }}
-          ></div>
+        
+        <div className="w-full flex gap-1 h-1.5">
+           {[...Array(10)].map((_, i) => (
+             <div 
+               key={i} 
+               className={`flex-1 rounded-full ${i < Math.floor(confPercent / 10) ? (isLow ? 'bg-orange-500/80 shadow-[0_0_8px_rgba(249,115,22,0.4)]' : 'bg-teal-500/80 shadow-[0_0_8px_rgba(20,184,166,0.4)]') : 'bg-gray-800'}`}
+             ></div>
+           ))}
         </div>
       </div>
     </div>

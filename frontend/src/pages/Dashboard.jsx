@@ -177,11 +177,11 @@ const Dashboard = () => {
           }}
         />
 
-        {/* Multi-Cylinder Kitchen Matrix - Bento Box */}
-        <div className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6">
+        {/* Multi-Cylinder Kitchen Matrix - Top Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           
           {/* Cylinder 01 - Main Wok Line (Real Data) */}
-          <div className="md:col-span-8 lg:col-span-8 flex flex-col gap-6">
+          <div className="lg:col-span-2 flex flex-col gap-6">
             <div 
               onClick={() => cylinder?.id && navigate(`/cylinders/${cylinder.id}`)}
               className="glass-panel glass-panel-hover p-8 flex flex-col justify-between cursor-pointer group h-[300px] relative overflow-hidden"
@@ -220,28 +220,22 @@ const Dashboard = () => {
             
           </div>
 
-          <div className="md:col-span-4 lg:col-span-4">
+          <div className="lg:col-span-1">
             <DaysRemainingCard prediction={cylinder?.prediction} />
           </div>
+        </div>
 
-          {/* Dynamically Rendered Cylinders */}
+        {/* Dynamically Rendered Cylinders Grid */}
+        <div className="grid gap-6 mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
           {data?.cylinders?.slice(1).map((cyl) => {
-            const hasReading = !!cyl.latest_reading;
-            // Assuming standard 14.2 capacity and 15.3 tare = 29.5 max for the demo if not specified
-            const currentWeight = hasReading ? cyl.latest_reading.weight_kg : 29.5;
-            const percent = Math.min(100, Math.max(0, Math.round(((currentWeight - 15.3) / 14.2) * 100)));
-            
             return (
               <div 
                 key={cyl.id} 
-                className="lg:col-span-1 cursor-pointer transition-transform hover:scale-[1.02]"
+                className="cursor-pointer transition-transform hover:scale-[1.01]"
                 onClick={() => navigate(`/cylinders/${cyl.id}`)}
               >
                 <MockCylinderCard 
-                  name={cyl.name} 
-                  status={hasReading ? "Active" : "Standby"} 
-                  percent={hasReading ? percent : 100} 
-                  weight={currentWeight} 
+                  cylinder={cyl}
                   onDelete={(e) => {
                     e.stopPropagation();
                     handleDeleteCylinder(cyl.id);
@@ -250,7 +244,6 @@ const Dashboard = () => {
               </div>
             );
           })}
-          
         </div>
 
         {/* Charts Grid */}
