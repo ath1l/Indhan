@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Indhan LPG Cylinder Weight Simulation Script.
 This script simulates LPG cylinder weight sensor readings over time across multiple cylinders,
@@ -9,6 +11,8 @@ Member A: Data Engineer (Synthetic weight-sensor generator)
 """
 
 import datetime
+from datetime import timedelta, timezone
+from typing import Any, Dict, List
 import random
 import json
 import csv
@@ -278,6 +282,34 @@ def main():
     print(f"Total Telemetry Readings:  {len(all_readings)}")
     print(f"Total Injected Anomalies:  {len(all_anomalies)}")
     print("Simulation complete and dataset is locked.")
+
+# ==============================================================================
+# Legacy Function for ML Engine Tests (from origin/athil)
+# ==============================================================================
+
+def simulate_weight_series(
+    start_time: datetime.datetime | None = None, 
+    period_hours: int = 6, 
+    points: int = 10, 
+    base_weight_kg: float = 12.0, 
+    decay_rate_kg_per_day: float = 0.3
+) -> List[Dict[str, Any]]:
+    """
+    Generate a simple synthetic weight series that decays over time.
+    Maintained for unit test compatibility with the ML engine models.
+    """
+    if start_time is None:
+        start_time = datetime.datetime.now(timezone.utc)
+
+    series: List[Dict[str, Any]] = []
+    for index in range(points):
+        timestamp = start_time + timedelta(hours=index * period_hours)
+        weight = max(base_weight_kg - (decay_rate_kg_per_day * (index * period_hours / 24.0)), 0.0)
+        series.append({
+            "timestamp": timestamp.isoformat().replace("+00:00", "Z"),
+            "weight_kg": round(weight, 2),
+        })
+    return series
 
 if __name__ == "__main__":
     main()
