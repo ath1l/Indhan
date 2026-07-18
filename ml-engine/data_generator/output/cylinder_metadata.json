@@ -1,0 +1,37 @@
+[
+  {
+    "cylinder_id": "cyl_001",
+    "tare_weight_kg": 15.3,
+    "gas_capacity_kg": 14.2,
+    "full_weight_kg": 29.5,
+    "user_id": "usr_001"
+  },
+  {
+    "cylinder_id": "cyl_002",
+    "tare_weight_kg": 15.3,
+    "gas_capacity_kg": 14.2,
+    "full_weight_kg": 29.5,
+    "user_id": "usr_002"
+  },
+  {
+    "cylinder_id": "cyl_003",
+    "tare_weight_kg": 15.3,
+    "gas_capacity_kg": 14.2,
+    "full_weight_kg": 29.5,
+    "user_id": "usr_003"
+  },
+  {
+    "cylinder_id": "cyl_004",
+    "tare_weight_kg": 15.3,
+    "gas_capacity_kg": 14.2,
+    "full_weight_kg": 29.5,
+    "user_id": "usr_004"
+  },
+  {
+    "cylinder_id": "cyl_005",
+    "tare_weight_kg": 15.3,
+    "gas_capacity_kg": 14.2,
+    "full_weight_kg": 29.5,
+    "user_id": "usr_005"
+  }
+]
