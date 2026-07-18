@@ -1,30 +1,54 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart, ReferenceLine, ReferenceArea } from 'recharts';
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    const isProjected = payload[0].name === 'projected_percent' || payload[0].dataKey === 'projected_percent';
+    const percent = isProjected ? data.projected_percent : data.percent;
+    const weight = isProjected ? data.projected_weight_kg : data.weight_kg;
+    
+    // Prevent rendering tooltip if hovering over the bridge point where percent is null
+    if (percent === null || percent === undefined) return null;
+
+    let statusText = "Stable";
+    let statusColor = "text-emerald-500";
+    if (percent <= 10) {
+      statusText = "Empty / Critical";
+      statusColor = "text-red-500";
+    } else if (percent <= 25) {
+      statusText = "Low Supply";
+      statusColor = "text-orange-500";
+    }
+
     return (
-      <div className="bg-white/90 backdrop-blur-md border border-slate-200 p-4 rounded-2xl shadow-xl shadow-slate-200/50">
-        <p className="text-slate-500 text-[10px] uppercase font-bold tracking-widest mb-2">
+      <div className="bg-white/95 backdrop-blur-md border border-slate-200 p-4 rounded-2xl shadow-xl shadow-slate-200/50 relative z-50">
+        <p className="text-slate-500 text-[10px] uppercase font-bold tracking-widest mb-3">
           {new Date(label).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+          {isProjected && <span className="ml-2 text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded border border-slate-200 uppercase">Projected</span>}
         </p>
-        {payload.map((entry, index) => (
-          <div key={index} className="flex flex-col mb-1">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-              {entry.name === 'projected_weight_kg' ? 'Projected Empty' : 'Actual Weight'}
-            </span>
-            <span className={`text-2xl font-display font-bold ${entry.name === 'projected_weight_kg' ? 'text-slate-500' : 'text-red-600'}`}>
-              {entry.value} <span className="text-sm">kg</span>
-            </span>
+        
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center gap-6">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Status</span>
+            <span className={`text-[10px] font-bold uppercase tracking-widest ${statusColor}`}>{statusText}</span>
           </div>
-        ))}
+          <div className="flex justify-between items-center gap-6">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Remaining</span>
+            <span className="text-sm font-bold text-slate-700">{percent.toFixed(1)}%</span>
+          </div>
+          <div className="flex justify-between items-center gap-6">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Weight</span>
+            <span className="text-sm font-bold text-slate-700">{weight?.toFixed(2)} kg</span>
+          </div>
+        </div>
       </div>
     );
   }
   return null;
 };
 
-const WeightTrendChart = ({ history }) => {
+const WeightTrendChart = ({ history, capacity = 14.2, tare = 15.3 }) => {
   if (!history || history.length === 0) {
     return (
       <div className="flex items-center justify-center h-full min-h-[200px]">
@@ -33,24 +57,51 @@ const WeightTrendChart = ({ history }) => {
     );
   }
 
+  // 1. Map data to percentages
+  const mappedData = history.map(item => {
+    const p = item.weight_kg !== null ? Math.max(0, ((item.weight_kg - tare) / capacity) * 100) : null;
+    const pp = item.projected_weight_kg !== null && item.projected_weight_kg !== undefined ? Math.max(0, ((item.projected_weight_kg - tare) / capacity) * 100) : null;
+    return {
+      ...item,
+      percent: p,
+      projected_percent: pp
+    };
+  });
+
+  // 2. Calculate dynamic gradient stops based on max Y axis value (100)
+  // Because YAxis is fixed 0 to 100, the SVG exactly maps 0% height to 100 on Y-Axis, and 100% height to 0 on Y-Axis.
+  const yAxisMax = 100;
+  const stopRed = 1 - (10 / yAxisMax);
+  const stopOrange = 1 - (25 / yAxisMax);
+
   return (
     <div className="w-full h-full relative z-10">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={history} margin={{ top: 20, right: 10, left: -20, bottom: 0 }}>
+        <AreaChart data={mappedData} margin={{ top: 20, right: 10, left: -20, bottom: 0 }}>
           <defs>
-            <linearGradient id="colorWeight" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#ef4444" stopOpacity={0.25}/>
-              <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+            <linearGradient id="colorHealth" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#10b981" stopOpacity={0.8}/>
+              <stop offset={`${stopOrange * 100}%`} stopColor="#10b981" stopOpacity={0.8}/>
+              <stop offset={`${stopOrange * 100}%`} stopColor="#f97316" stopOpacity={0.8}/>
+              <stop offset={`${stopRed * 100}%`} stopColor="#f97316" stopOpacity={0.8}/>
+              <stop offset={`${stopRed * 100}%`} stopColor="#ef4444" stopOpacity={0.8}/>
+              <stop offset="100%" stopColor="#ef4444" stopOpacity={0.8}/>
             </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
+            <linearGradient id="colorHealthArea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#10b981" stopOpacity={0.15}/>
+              <stop offset={`${stopOrange * 100}%`} stopColor="#10b981" stopOpacity={0.1}/>
+              <stop offset={`${stopOrange * 100}%`} stopColor="#f97316" stopOpacity={0.1}/>
+              <stop offset={`${stopRed * 100}%`} stopColor="#f97316" stopOpacity={0.1}/>
+              <stop offset={`${stopRed * 100}%`} stopColor="#ef4444" stopOpacity={0.1}/>
+              <stop offset="100%" stopColor="#ef4444" stopOpacity={0.05}/>
+            </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+          
+          <ReferenceArea y1={0} y2={10} fill="#ef4444" fillOpacity={0.05} />
+          <ReferenceLine y={10} stroke="#ef4444" strokeDasharray="3 3" label={{ position: 'insideBottomLeft', value: 'Empty / Critical', fill: '#ef4444', fontSize: 10 }} />
+          <ReferenceLine y={25} stroke="#f97316" strokeDasharray="3 3" label={{ position: 'insideBottomLeft', value: 'Low Supply', fill: '#f97316', fontSize: 10 }} />
+
           <XAxis 
             dataKey="date" 
             stroke="#94a3b8" 
@@ -64,27 +115,27 @@ const WeightTrendChart = ({ history }) => {
             }}
           />
           <YAxis 
-            domain={[0, 35]}
+            domain={[0, 100]}
             stroke="#94a3b8" 
             tick={{fill: '#94a3b8', fontSize: 10, fontFamily: 'monospace', fontWeight: 700}} 
             tickLine={false}
             axisLine={false}
+            tickFormatter={(val) => `${val}%`}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '5 5' }} />
           
           <Area 
             type="monotone" 
-            dataKey="weight_kg" 
-            stroke="#ef4444" 
-            strokeWidth={4}
+            dataKey="percent" 
+            stroke="url(#colorHealth)" 
+            strokeWidth={3}
             fillOpacity={1} 
-            fill="url(#colorWeight)"
-            activeDot={{ r: 6, fill: "#fff", stroke: "#ef4444", strokeWidth: 3 }}
-            filter="url(#glow)"
+            fill="url(#colorHealthArea)"
+            activeDot={{ r: 6, fill: "#fff", stroke: "#10b981", strokeWidth: 3 }}
           />
           <Area 
             type="linear" 
-            dataKey="projected_weight_kg" 
+            dataKey="projected_percent" 
             stroke="#94a3b8" 
             strokeWidth={3}
             strokeDasharray="6 6"

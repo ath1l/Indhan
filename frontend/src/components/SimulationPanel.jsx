@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Activity, AlertTriangle, RefreshCw, Flame, Clock, Droplet, FlaskConical } from 'lucide-react';
+import { Activity, AlertTriangle, RefreshCw, Flame, Clock, Droplet, FlaskConical, Calendar, TrendingDown } from 'lucide-react';
 
 const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15.3, onReadingAdded }) => {
   const fullWeight = capacity + tare;
@@ -8,6 +8,10 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
   const [gasConsumed, setGasConsumed] = useState(0.5);
   const [durationMinutes, setDurationMinutes] = useState(60);
   const [loading, setLoading] = useState(false);
+
+  // Demo Studio State
+  const [demoDays, setDemoDays] = useState(30);
+  const [demoProfile, setDemoProfile] = useState("normal"); 
 
   const submitReading = async (weight) => {
     setLoading(true);
@@ -26,7 +30,6 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
   const handleManualSubmit = async () => {
     setLoading(true);
     try {
-      // Calculate delta and spread over 10 minutes to prevent instant spikes
       const diff = currentWeight - sliderValue;
       await axios.post(`/api/v1/cylinders/${cylinderId}/readings/simulate`, {
         gas_consumed: diff,
@@ -39,6 +42,7 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
       setLoading(false);
     }
   };
+  
   const handleSimulateRefill = () => submitReading(fullWeight);
   
   const handleCustomUsage = async () => {
@@ -48,7 +52,6 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
         gas_consumed: parseFloat(gasConsumed),
         duration_minutes: parseInt(durationMinutes)
       });
-      // Reset to defaults
       setGasConsumed(0.5);
       setDurationMinutes(60);
       
@@ -61,10 +64,32 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
       setLoading(false);
     }
   };
-  
+
+  const handleGenerateHistory = async () => {
+    setLoading(true);
+    try {
+      let endWeight = 17.0; // normal
+      if (demoProfile === 'light') endWeight = 22.0;
+      if (demoProfile === 'heavy') endWeight = 15.5; 
+
+      await axios.post(`/api/v1/cylinders/${cylinderId}/readings/simulate-history`, {
+        days: parseInt(demoDays),
+        startWeight: fullWeight,
+        endWeight: endWeight
+      });
+      if (onReadingAdded) {
+        onReadingAdded();
+      }
+    } catch (err) {
+      console.error("Error generating history:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="mt-8 p-8 rounded-[24px] bg-slate-100 border border-slate-200/60 shadow-inner relative overflow-hidden group">
+    <>
+      <div className="mt-8 p-8 rounded-[24px] bg-slate-100 border border-slate-200/60 shadow-inner relative overflow-hidden group mb-8">
       {/* Background laboratory pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none"></div>
 
@@ -160,13 +185,57 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
               className="w-full flex items-center justify-center bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white rounded-xl py-3 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-[0_4px_12px_rgba(220,38,38,0.2)]"
             >
               <RefreshCw className="w-3.5 h-3.5 mr-2" />
-              Simulate Refill
+              Simulate Refill (Full {fullWeight} kg)
             </button>
           </div>
         </div>
       </div>
 
-    </div>
+      {/* Demo Studio - Historical Generator */}
+      <div className="p-8 rounded-[24px] bg-slate-100 border border-slate-200/60 shadow-inner relative overflow-hidden group">
+        <div className="flex items-center text-slate-900 mb-6 relative z-10">
+          <Calendar className="w-5 h-5 mr-3 text-purple-600" />
+          <span className="uppercase tracking-widest text-sm font-bold">Time-Lapse Demo Studio</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end relative z-10">
+          <div>
+            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Timeframe</label>
+            <select 
+              value={demoDays} 
+              onChange={(e) => setDemoDays(e.target.value)}
+              className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-3 font-mono text-sm text-slate-700 font-bold focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors shadow-sm"
+            >
+              <option value="7">Last 7 Days</option>
+              <option value="15">Last 15 Days</option>
+              <option value="30">Last 30 Days</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Usage Profile</label>
+            <select 
+              value={demoProfile} 
+              onChange={(e) => setDemoProfile(e.target.value)}
+              className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-3 font-mono text-sm text-slate-700 font-bold focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors shadow-sm"
+            >
+              <option value="light">Light Cooking</option>
+              <option value="normal">Normal Household</option>
+              <option value="heavy">Heavy / Catering</option>
+            </select>
+          </div>
+
+          <button 
+            onClick={handleGenerateHistory}
+            disabled={loading}
+            className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white border border-purple-700/50 rounded-xl py-3 transition-all disabled:opacity-50 font-bold text-[10px] uppercase tracking-widest shadow-sm"
+          >
+            {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <><TrendingDown className="w-4 h-4 mr-2" /> Generate Historical Data</>}
+          </button>
+        </div>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ArrowLeft, Activity, Flame, Clock, Database, CheckCircle2, PauseCircle } from 'lucide-react';
 import WeightTrendChart from '../components/WeightTrendChart';
 import SimulationPanel from '../components/SimulationPanel';
+import TimeWarpSimulator from '../components/TimeWarpSimulator';
 import CostProjectionCard from '../components/CostProjectionCard';
 import LpgVisualizer from '../components/LpgVisualizer';
 
@@ -51,6 +52,15 @@ const CylinderDetail = () => {
 
   const handleReadingAdded = () => {
     setRefreshTrigger(prev => prev + 1);
+  };
+
+  const handleLivePoint = (newPoint) => {
+    setHistory(prev => {
+      const updated = [...prev, newPoint];
+      // Keep only last 1000 points to prevent memory issues during hyper-speed
+      if (updated.length > 1000) return updated.slice(updated.length - 1000);
+      return updated;
+    });
   };
 
   if (loading) {
@@ -236,7 +246,11 @@ const CylinderDetail = () => {
             <div className="h-[450px] mb-8 glass-panel p-6 flex flex-col">
               <h3 className="text-xs font-bold text-slate-900 uppercase tracking-widest mb-6">Weight Trend</h3>
               <div className="flex-1 min-h-0">
-                <WeightTrendChart history={history} />
+                <WeightTrendChart 
+                  history={history} 
+                  capacity={cylinder?.capacity_kg || 14.2}
+                  tare={cylinder?.tare_weight_kg || 15.3}
+                />
               </div>
             </div>
 
@@ -246,6 +260,13 @@ const CylinderDetail = () => {
               capacity={cylinder?.capacity_kg}
               tare={cylinder?.tare_weight_kg}
               onReadingAdded={handleReadingAdded}
+            />
+
+            {/* Live Time-Warp Engine */}
+            <TimeWarpSimulator 
+              cylinderId={id}
+              initialWeight={history.length > 0 ? history[history.length - 1].weight_kg : (cylinder?.capacity_kg + cylinder?.tare_weight_kg)}
+              onLivePointGenerated={handleLivePoint}
             />
           </>
         )}
