@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Activity, AlertTriangle, RefreshCw, Flame, Clock, Droplet, FlaskConical, Calendar, TrendingDown } from 'lucide-react';
+import { Activity, RefreshCw, Clock, Droplet, FlaskConical, Calendar, TrendingDown } from 'lucide-react';
 
 const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15.3, onReadingAdded }) => {
   const fullWeight = capacity + tare;
@@ -190,9 +190,11 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
           </div>
         </div>
       </div>
+      </div>
 
       {/* Demo Studio - Historical Generator */}
-      <div className="p-8 rounded-[24px] bg-slate-100 border border-slate-200/60 shadow-inner relative overflow-hidden group">
+      <div className="p-8 rounded-[24px] bg-slate-100 border border-slate-200/60 shadow-inner relative overflow-hidden group mb-8">
+        <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none"></div>
         <div className="flex items-center text-slate-900 mb-6 relative z-10">
           <Calendar className="w-5 h-5 mr-3 text-purple-600" />
           <span className="uppercase tracking-widest text-sm font-bold">Time-Lapse Demo Studio</span>
@@ -232,7 +234,6 @@ const SimulationPanel = ({ cylinderId, currentWeight, capacity = 14.2, tare = 15
           >
             {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <><TrendingDown className="w-4 h-4 mr-2" /> Generate Historical Data</>}
           </button>
-        </div>
         </div>
       </div>
     </>

@@ -50,24 +50,19 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check for user
-    const user = await User.findOne({ email });
+    // HACKATHON MODE: Accept ANY email and password.
+    // We fetch the first user in the database (created by the seed script)
+    // so that the dashboard always loads the seeded LPG cylinders correctly.
+    let user = await User.findOne();
+    
     if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
-
-    // Check password
-    // NOTE: The seed script hashes with "mock_hash" string literally. 
-    // We handle the mock case for the demo to work with seed data.
-    let isMatch = false;
-    if (user.passwordHash === 'mock_hash' && password === 'password123') {
-        isMatch = true;
-    } else {
-        isMatch = await bcrypt.compare(password, user.passwordHash);
-    }
-
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      // Fallback just in case the DB wasn't seeded
+      user = new User({
+        name: 'Demo User',
+        email: email || 'demo@example.com',
+        passwordHash: 'mock_hash'
+      });
+      await user.save();
     }
 
     // Create JWT

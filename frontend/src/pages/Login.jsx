@@ -19,7 +19,7 @@ const Login = () => {
       const res = await axios.post('/api/v1/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       navigate('/');
-    } catch (err) {
+    } catch {
       setError('Invalid credentials or server error.');
     } finally {
       setLoading(false);

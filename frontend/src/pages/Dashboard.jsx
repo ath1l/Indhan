@@ -5,6 +5,8 @@ import { Activity, LogOut, Plus, LayoutGrid, Zap } from 'lucide-react';
 import MockCylinderCard from '../components/MockCylinderCard';
 import AddCylinderModal from '../components/AddCylinderModal';
 import IndhanLogo from '../components/IndhanLogo';
+import LpgHeroArt from '../components/LpgHeroArt';
+import TeamBourbonFooter from '../components/TeamBourbonFooter';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -19,7 +21,7 @@ const Dashboard = () => {
       try {
         const res = await axios.get('/api/v1/dashboard/summary');
         setData(res.data);
-      } catch (err) {
+      } catch {
         setError("Failed to fetch dashboard data.");
       } finally {
         setLoading(false);
@@ -116,9 +118,15 @@ const Dashboard = () => {
         </div>
       </header>
 
+      {/* Subtle Divider */}
+      <div className="max-w-[1200px] mx-auto mb-12 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+
       {/* Main Content Layout */}
       <main className="max-w-[1200px] mx-auto flex flex-col gap-10">
         
+        {/* Hero Artwork Centerpiece */}
+        <LpgHeroArt />
+
         {/* Metric Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="glass-panel p-6 flex flex-col justify-between group">
@@ -197,6 +205,9 @@ const Dashboard = () => {
           setRefreshTrigger(prev => prev + 1);
         }} 
       />
+
+      {/* Team Bourbon Footer */}
+      <TeamBourbonFooter />
     </div>
   );
 };
