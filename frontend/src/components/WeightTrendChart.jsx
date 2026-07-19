@@ -4,11 +4,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
-    const isProjected = payload[0].name === 'projected_percent' || payload[0].dataKey === 'projected_percent';
-    const percent = isProjected ? data.projected_percent : data.percent;
-    const weight = isProjected ? data.projected_weight_kg : data.weight_kg;
+    const percent = data.percent;
+    const weight = data.weight_kg;
     
-    // Prevent rendering tooltip if hovering over the bridge point where percent is null
+    // Prevent rendering tooltip if percent is null
     if (percent === null || percent === undefined) return null;
 
     let statusText = "Stable";
@@ -25,7 +24,6 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="bg-white/95 backdrop-blur-md border border-slate-200 p-4 rounded-2xl shadow-xl shadow-slate-200/50 relative z-50">
         <p className="text-slate-500 text-[10px] uppercase font-bold tracking-widest mb-3">
           {new Date(label).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-          {isProjected && <span className="ml-2 text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded border border-slate-200 uppercase">Projected</span>}
         </p>
         
         <div className="flex flex-col gap-2">
@@ -60,11 +58,9 @@ const WeightTrendChart = ({ history, capacity = 14.2, tare = 15.3 }) => {
   // 1. Map data to percentages
   const mappedData = history.map(item => {
     const p = item.weight_kg !== null ? Math.max(0, ((item.weight_kg - tare) / capacity) * 100) : null;
-    const pp = item.projected_weight_kg !== null && item.projected_weight_kg !== undefined ? Math.max(0, ((item.projected_weight_kg - tare) / capacity) * 100) : null;
     return {
       ...item,
-      percent: p,
-      projected_percent: pp
+      percent: p
     };
   });
 
@@ -132,14 +128,6 @@ const WeightTrendChart = ({ history, capacity = 14.2, tare = 15.3 }) => {
             fillOpacity={1} 
             fill="url(#colorHealthArea)"
             activeDot={{ r: 6, fill: "#fff", stroke: "#10b981", strokeWidth: 3 }}
-          />
-          <Area 
-            type="linear" 
-            dataKey="projected_percent" 
-            stroke="#94a3b8" 
-            strokeWidth={3}
-            strokeDasharray="6 6"
-            fillOpacity={0} 
           />
         </AreaChart>
       </ResponsiveContainer>
