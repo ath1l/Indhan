@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { FastForward, Play, Square, Settings2 } from 'lucide-react';
+import { FastForward, Play, Square, Settings2, Flame } from 'lucide-react';
 
 const TimeWarpSimulator = ({ cylinderId, initialWeight, onLivePointGenerated }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [multiplier, setMultiplier] = useState(3600); // Default 1 hour per second
-  const dailyBurn = 0.5; // kg per day
+  const [dailyBurn, setDailyBurn] = useState(0.5); // kg per day
   
   const [virtualTime, setVirtualTime] = useState(new Date());
   const [currentWeight, setCurrentWeight] = useState(initialWeight || 14.2 + 15.3);
@@ -155,6 +155,22 @@ const TimeWarpSimulator = ({ cylinderId, initialWeight, onLivePointGenerated }) 
                 </button>
               ))}
             </div>
+          </div>
+
+          <div>
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-between mb-3">
+              <span className="flex items-center"><Flame className="w-3 h-3 mr-1" /> Simulated Burn Rate</span>
+              <span className="text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded text-[9px]">{dailyBurn.toFixed(1)} kg/day</span>
+            </label>
+            <input 
+              type="range" 
+              min="0.1" 
+              max="5.0" 
+              step="0.1"
+              value={dailyBurn}
+              onChange={(e) => setDailyBurn(parseFloat(e.target.value))}
+              className="w-full accent-emerald-500 cursor-pointer"
+            />
           </div>
 
           <div className="flex gap-3 pt-2">
