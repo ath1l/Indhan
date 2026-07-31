@@ -1,14 +1,28 @@
 const mlService = require('../services/mlService');
+const Reading = require('../models/Reading');
+const PRICING = require('../config/pricing');
 
 exports.getCostProjection = async (req, res) => {
   try {
-    const prediction = await mlService.getPrediction(req.params.id);
-    const burnRate = prediction?.burn_rate_kg_per_day || 0;
+    const readings = await Reading.find({ cylinder_id: req.params.id });
+    let prediction = null;
     
-    // Mock LPG Price
-    const pricePerCylinder = 800; // INR
-    const averageCapacityKg = 14.2; 
-    const pricePerKg = pricePerCylinder / averageCapacityKg;
+    if (readings && readings.length >= 2) {
+      try {
+        prediction = await mlService.getPrediction(req.params.id);
+      } catch (err) {
+        console.error(`Cost prediction skipped for ${req.params.id}: ${err.message}`);
+      }
+    } else {
+      return res.status(200).json({ projected_daily_cost: 0, projected_monthly_cost: 0, message: "Not enough data" });
+    }
+    
+    // Decouple budget from instantaneous anomaly burn rate
+    const burnRate = prediction?.rolling_avg_burn_rate || prediction?.burn_rate_kg_per_day || 0;
+    
+    // Use generic commercial pricing for now unless cylinder specifies type
+    const cylinderType = 'commercial';
+    const pricePerKg = PRICING[cylinderType].pricePerUnit;
 
     // Calculate daily and monthly costs
     const dailyCost = burnRate * pricePerKg;

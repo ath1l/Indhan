@@ -8,7 +8,7 @@ const GATEWAY_SCRIPT = path.resolve(__dirname, '../../../ml-engine/gateway.py');
 /**
  * Execute Python ML Gateway script
  */
-const executePythonML = async (action, cylinderId) => {
+const executePythonML = async (action, cylinderId, options = {}) => {
   return new Promise(async (resolve, reject) => {
     try {
       // 1. Fetch cylinder and readings from DB
@@ -17,10 +17,15 @@ const executePythonML = async (action, cylinderId) => {
         return reject(new Error('Cylinder not found'));
       }
       
-      const readingsDb = await Reading.find({ cylinder_id: cylinderId }).sort({ timestamp: 1 });
+      const query = { cylinder_id: cylinderId };
+      if (options.startDate) {
+        query.timestamp = { $gte: new Date(options.startDate) };
+      }
+      const readingsDb = await Reading.find(query).sort({ timestamp: 1 });
       const readings = readingsDb.map(r => ({
         timestamp: r.timestamp.toISOString(),
-        weight_kg: r.weight_kg
+        weight_kg: r.weight_kg,
+        type: r.type || 'real'
       }));
 
       const inputData = {
@@ -72,12 +77,12 @@ const executePythonML = async (action, cylinderId) => {
   });
 };
 
-const getPrediction = async (cylinderId) => {
-  return executePythonML('prediction', cylinderId);
+const getPrediction = async (cylinderId, options = {}) => {
+  return executePythonML('prediction', cylinderId, options);
 };
 
-const getPredictionHistory = async (cylinderId) => {
-  return executePythonML('history', cylinderId);
+const getPredictionHistory = async (cylinderId, options = {}) => {
+  return executePythonML('history', cylinderId, options);
 };
 
 const getAnomalies = async (cylinderId) => {

@@ -18,13 +18,23 @@ exports.getDashboardSummary = async (req, res) => {
       // Get latest reading
       const latestReading = await Reading.findOne({ cylinder_id: cyl._id }).sort({ timestamp: -1 });
       
-      // Get ML data
-      const prediction = await mlService.getPrediction(cyl._id.toString());
-      const active_alerts = await mlService.getAnomalies(cyl._id.toString());
+      let prediction = null;
+      let active_alerts = [];
+
+      if (latestReading) {
+        try {
+          prediction = await mlService.getPrediction(cyl._id.toString());
+          active_alerts = await mlService.getAnomalies(cyl._id.toString());
+        } catch (mlErr) {
+          console.error(`ML skipped for ${cyl.name}: ${mlErr.message}`);
+        }
+      }
 
       return {
         id: cyl._id.toString(),
         name: cyl.name,
+        capacity_kg: cyl.capacity_kg,
+        tare_weight_kg: cyl.tare_weight_kg,
         latest_reading: latestReading ? {
           timestamp: latestReading.timestamp,
           weight_kg: latestReading.weight_kg
